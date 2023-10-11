@@ -1,0 +1,44 @@
+local debugger = require('debugger.debugger')
+local input = require("libraries/mobile_input/input")
+local hex = require("libraries/hexagon/hexagon")
+debugger.start()
+
+--io.open("name of file, "rb") -- binary!
+
+-- This is an example script to debug
+
+local function sum(a, b)
+  return a + b
+end
+
+-- Main:
+-- save json in path
+-- choose path
+-- draw bound area
+
+--Aditional:
+-- prepare drag cursor in tiff format 
+-- load drag cursor
+
+function init(self)
+   msg.post("/camera", "acquire_input_focus")
+   msg.post("/main#artist", "acquire_input_focus")
+   hex.size = 76.8 * 0.5
+   input.double_touch_subscribe(function () print("DOUBLE_TOUCH") end)
+   -- load a png from disk
+   local f = io.open("main/Tile.png", "rb")
+   if f == nil then return end
+   local bytes = f:read("*a")
+
+   -- decode the png to RGBA buffer
+   local buf, w, h = png.decode_rgba(bytes, true)
+
+   -- change the texture on a sprite to the loaded png
+   --local resource_path = go.get("Image#sprite", "texture0")
+   --local header = { width = w, height = h, type = resource.TEXTURE_TYPE_2D, format = resource.TEXTURE_FORMAT_RGBA, num_mip_maps = 1 }
+   --resource.set_texture(resource_path, header, buf)
+end
+
+function update(self)
+   --print(input.get_cursor_world_position())
+end

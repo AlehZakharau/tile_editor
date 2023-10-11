@@ -1,0 +1,17 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+render = /libraries/orthographic/render/orthographic.renderc
+
+[input]
+game_binding = /builtins/input/all.input_bindingc
+
+[script]
+shared_state = 1
+
+[android]
+input_method = HiddenInputField
+
+[project]
+dependencies = 
+title = tile_editor
+

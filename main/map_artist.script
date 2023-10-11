@@ -1,0 +1,59 @@
+local hex = require("libraries/hexagon/hexagon")
+local input = require("libraries/mobile_input/input")
+local map = require("main/code/map")
+local table_utility = require("libraries/table_utility/table_utility")
+local cursor_model = require("main/code/cursor")
+
+
+local function has_tile(q, r)
+   if map.current_coord_map[q] ~= nil then
+      if map.current_coord_map[q][r] ~= nil and map.current_coord_map[q][r] ~= 0 then return true end
+   end
+   return false
+end
+
+local factory_tile = "/factory_tile#tile"
+
+local function draw_tile_sprite(spawn_position)
+   return factory.create(factory_tile, spawn_position)
+end
+
+local function remove_tile_sprite(tile_hash)
+   go.delete(tile_hash)
+end
+
+local function get_tile_coord()
+   local cursor_world_position = input.get_cursor_world_position()
+   return hex.pixel_to_flat_hex(cursor_world_position)
+end
+
+local function draw_tile()
+   if cursor_model.free_cursor_mode == false then return end
+   local q, r = get_tile_coord()
+   if has_tile(q, r) == false then
+      if map.current_coord_map[q] == nil then map.current_coord_map[q] = {} end
+      local tile_hash = draw_tile_sprite(hex.flat_hex_to_pixel(q, r))
+      table.insert(map.current_map, {q, r})
+      map.current_coord_map[q][r] = {tile_hash, #map.current_map}
+   end
+end
+
+local function remove_tile()
+   local q, r = get_tile_coord()
+   if has_tile(q, r) then
+      local tile_id = map.current_coord_map[q][r]
+      remove_tile_sprite(map.current_coord_map[q][r][1])
+      table_utility.remove_element(map.current_map, map.current_coord_map[q][r][2])
+      map.current_coord_map[q][r] = 0
+   end
+end
+
+function init(self)
+   input.hold_subscribe(draw_tile)
+end
+
+function on_input(self, action_id, action)
+   if action_id == hash("mouse_button_2") and cursor_model.free_cursor_mode then 
+      remove_tile()
+   end
+end

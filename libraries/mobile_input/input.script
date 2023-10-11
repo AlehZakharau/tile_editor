@@ -1,0 +1,106 @@
+go.property("double_click_timer", 0.2)
+go.property("double_click_threshold", 2)
+go.property("swipe_threshold", 10)
+go.property("swipe_timer", 0.1)
+go.property("swipe_distance_multiply", 10)
+go.property("swipe_duration_multiply", .1)
+go.property("swipe_duration_base", .1)
+go.property("zoom_speed", 0.01)
+go.property("zoom_min", 0.5)
+go.property("zoom_max", 2)
+go.property("bound_left", -1000)
+go.property("bound_right", 1000)
+go.property("bound_top", 1000)
+go.property("bound_bottom", -1000)
+go.property("smooth_movement", true)
+
+local mathf = require "libraries.mathf.mathf"
+local input_world = require "libraries.mobile_input.input_world"
+local input_module = require ("libraries/mobile_input/input_model")
+
+
+
+function init(self)
+   self.released_time = 0
+   self.previous_cursor_position = vmath.vector3(0, 0, 0)
+   msg.post(".", "acquire_input_focus")
+end
+
+local zoom = 2
+local detect_touch = false
+local taped = false
+local swiped = false
+local previous_x = 0
+local previous_y = 0
+local pressed_time = 0
+local cursor_world_position
+local swiped_direction = vmath.vector3(0, 0, 0)
+local swiped_duration = 0
+
+
+
+local function detect_bounds(self, position)
+   position.x = mathf.clamp(position.x, self.bound_left, self.bound_right)
+   position.y = mathf.clamp(position.y, self.bound_bottom, self.bound_top)
+   return position
+end
+
+
+local function adjust_touch_movement_to_bounds(self, position, cursor_position, direction)
+   position = detect_bounds(self, position)
+   direction.x, direction.y = cursor_position.x - position.x, cursor_position.y - position.y
+   return direction
+end
+
+local function detect_touch(action)
+   input_module.touch.press()
+   input_module.pressed_cursor_position = vmath.vector3(action.x, action.y , 0)
+   return socket.gettime() 
+end
+
+local function release_touch(self, action)
+   self.released_time = socket.gettime();
+   input_module.touch.release()
+   input_module.released_cursor_position = vmath.vector3(action.x, action.y , 0)
+   self.released_position = input_module.released_cursor_position
+end
+
+local function detect_double_tap(self)
+   if self.touch_time - self.released_time < self.double_click_timer 
+   and self.cursor_position.x - self.previous_cursor_position.x < self.double_click_threshold
+   and self.cursor_position.y - self.previous_cursor_position.y < self.double_click_threshold 
+   then
+      input_module.double_touch.press()
+   end
+end
+
+local function detect_cursor_position(self, action)
+   if action.x and action.y then
+      self.cursor_position = vmath.vector3(action.x, action.y, 0)
+      input_module.cursor_position = self.cursor_position
+      input_world.calculate_cursor_world_position(input_module.cursor_position)
+   else
+      self.cursor_position = vmath.vector3(0, 0, 0)
+      input_module.cursor_position = self.cursor_position
+   end
+end
+
+function on_input(self, action_id, action)
+   detect_cursor_position(self, action)
+   if action_id == hash("zoom_in") then
+   end
+   if action_id == hash("zoom_out") then
+   end
+   if action_id == hash("touch") and action.pressed then
+      self.touch_time = detect_touch(action)
+      detect_double_tap(self)
+   elseif action_id == hash("touch") and action.released then
+      release_touch(self, action)
+   end
+   if action_id == hash("touch") then
+      input_module.hold.press()
+   end
+end
+
+function on_message(self, message_id, message, sender)
+end
