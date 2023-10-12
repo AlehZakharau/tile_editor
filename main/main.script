@@ -12,11 +12,8 @@ local function sum(a, b)
 end
 
 -- Main:
-
 -- choose path
 
---Bugs:
--- Fix start drag position chaging
 
 --Aditional:
 -- prepare drag cursor in tiff format 

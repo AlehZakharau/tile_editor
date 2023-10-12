@@ -4,7 +4,9 @@ local cursor_model = require("main/code/cursor")
 
 local main_camera = hash("/camera")
 local cursor = hash("/cursor")
+local camera_archon = hash("/camera_archon")
 local cursor_sprite = "/cursor#sprite"
+local camera_speed = 15
 
 local cursor_previous_position = vmath.vector3()
 
@@ -46,12 +48,7 @@ function init(self)
    turn_on_free_mode()
    window.set_listener(window_callback)
    defos.set_cursor_locked(false)
-   self.cursors = {
-		defos.CURSOR_HAND,
-		defos.CURSOR_ARROW,
-		defos.CURSOR_CROSSHAIR,
-		defos.CURSOR_IBEAM,
-	}
+   self.cursors = { defos.CURSOR_HAND, defos.CURSOR_ARROW, defos.CURSOR_CROSSHAIR, defos.CURSOR_IBEAM, }
 end
 
 function update(self, dt)
@@ -69,16 +66,21 @@ local function grab_mode(self, action_id, action)
    end
    if action_id == hash("key_space") and input.get_touch_status() then
       defos.set_cursor(self.cursors[3])
-      camera_model.follow(main_camera, cursor, {lepr = 0.4, horizontal = true, vertical = true, immediate = true})
-      local cursor_object = go.get_position(cursor) 
+      camera_model.follow(main_camera, camera_archon, {lepr = 0.4, horizontal = true, vertical = true, immediate = true})
+      local cursor_object = go.get_position(camera_archon) 
       local cursor_position = input.get_cursor_position()
       local delta = cursor_position - cursor_previous_position
-      go.set_position(cursor_object - delta, cursor)
-      cursor_previous_position = input.get_cursor_position()
+      local delta_length = vmath.length(delta)
+      delta = vmath.normalize(delta)
+      if delta_length < 150 and delta_length > 0 then 
+         cursor_previous_position = input.get_cursor_position() 
+         go.set_position(cursor_object - delta * camera_speed, camera_archon)
+      end
    end
    if action_id == hash("key_space") and action.released then
       turn_on_free_mode()
       camera_model.unfollow(main_camera)
+      cursor_previous_position = vmath.vector3(0, 0, 0) 
    end
 end
 
