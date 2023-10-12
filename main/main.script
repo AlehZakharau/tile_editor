@@ -12,9 +12,11 @@ local function sum(a, b)
 end
 
 -- Main:
--- save json in path
+
 -- choose path
--- draw bound area
+
+--Bugs:
+-- Fix start drag position chaging
 
 --Aditional:
 -- prepare drag cursor in tiff format 

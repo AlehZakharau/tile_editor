@@ -21,10 +21,30 @@ local function turn_on_free_mode()
    defos.set_cursor_visible(false)
 end
 
+function window_callback(self, event, data)
+   if event == window.WINDOW_EVENT_FOCUS_LOST then
+      defos.set_cursor_visible(true)
+      defos.set_cursor(self.cursors[1])
+   elseif event == window.WINDOW_EVENT_FOCUS_GAINED then
+       if cursor_model.free_cursor_mode == true then
+         turn_on_free_mode()
+       else
+         turn_off_free_mode()
+       end
+   elseif event == window.WINDOW_EVENT_ICONFIED then
+       print("window.WINDOW_EVENT_ICONFIED")
+   elseif event == window.WINDOW_EVENT_DEICONIFIED then
+       print("window.WINDOW_EVENT_DEICONIFIED")
+   elseif event == window.WINDOW_EVENT_RESIZED then
+       print("Window resized: ", data.width, data.height)
+   end
+end
+
 
 function init(self)
    msg.post(".", "acquire_input_focus")
    turn_on_free_mode()
+   window.set_listener(window_callback)
    defos.set_cursor_locked(false)
    self.cursors = {
 		defos.CURSOR_HAND,
