@@ -1,11 +1,15 @@
-script: "/example/explorer.gui_script"
+script: "/main/ui/example/explorer.gui_script"
 fonts {
   name: "roboto"
-  font: "/example/assets/fonts/roboto.font"
+  font: "/assets/fonts/roboto.font"
 }
 textures {
-  name: "example"
-  texture: "/example/assets/example.atlas"
+  name: "file_system"
+  texture: "/assets/file_system.atlas"
+}
+textures {
+  name: "ui"
+  texture: "/assets/ui.atlas"
 }
 background_color {
   x: 0.0
@@ -15,8 +19,8 @@ background_color {
 }
 nodes {
   position {
-    x: 320.0
-    y: 568.0
+    x: 480.0
+    y: 320.0
     z: 0.0
     w: 1.0
   }
@@ -33,8 +37,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 630.0
-    y: 1126.0
+    x: 960.0
+    y: 640.0
     z: 0.0
     w: 1.0
   }
@@ -46,19 +50,19 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "example/space"
+  texture: "ui/empty"
   id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  layer: "below"
+  layer: ""
   inherit_alpha: true
   slice9 {
-    x: 4.0
-    y: 4.0
-    z: 4.0
-    w: 4.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -66,11 +70,15 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: -290.0
-    y: 520.0
+    x: 0.0
+    y: 320.0
     z: 0.0
     w: 1.0
   }
@@ -87,22 +95,140 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 1.0
+    y: 1.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "ui/empty"
+  id: "Archon_N"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
+}
+nodes {
+  position {
+    x: 0.0
+    y: -370.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 500.0
+    y: 550.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "file_system/space"
+  id: "explorer_window"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "Archon_N"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 1.5
+    y: 2.0
+    z: 1.5
+    w: 2.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
+}
+nodes {
+  position {
+    x: -200.0
+    y: 249.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 400.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "<text>"
   font: "roboto"
-  id: "currentdir"
+  id: "current_directory"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
@@ -120,7 +246,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "root"
+  parent: "explorer_window"
   layer: "text"
   inherit_alpha: true
   alpha: 1.0
@@ -129,11 +255,15 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
     x: 0.0
-    y: 468.845
+    y: 172.0
     z: 0.0
     w: 1.0
   }
@@ -163,12 +293,14 @@ nodes {
   }
   type: TYPE_TEMPLATE
   id: "fileproto"
-  parent: "root"
+  parent: "explorer_window"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  template: "/example/file.gui"
+  template: "/main/ui/example/file.gui"
   template_node_child: false
+  custom_type: 0
+  enabled: true
 }
 nodes {
   position {
@@ -190,7 +322,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 600.0
+    x: 400.0
     y: 40.0
     z: 0.0
     w: 1.0
@@ -224,10 +356,14 @@ nodes {
   alpha: 1.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: -290.0
+    x: -190.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -245,7 +381,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 580.0
+    x: 380.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -287,10 +423,14 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 69.12
+    x: 89.12
     y: 0.0
     z: 0.0
     w: 1.0
@@ -308,7 +448,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 50.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -350,10 +490,14 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 291.006
+    x: 191.00601
     y: 0.0
     z: 0.0
     w: 1.0
@@ -371,7 +515,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 50.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -413,11 +557,15 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 290.0
-    y: 538.0
+    x: 223.0
+    y: 253.0
     z: 0.0
     w: 1.0
   }
@@ -434,8 +582,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 38.0
-    y: 36.0
+    x: 25.0
+    y: 25.0
     z: 0.0
     w: 1.0
   }
@@ -447,13 +595,13 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "example/grey_boxCross"
+  texture: "file_system/grey_crossGrey"
   id: "close"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "explorer_window"
   layer: "below"
   inherit_alpha: true
   slice9 {
@@ -467,12 +615,16 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: -290.0
-    y: 489.976
+    x: -200.0
+    y: 220.0
     z: 0.0
     w: 1.0
   }
@@ -489,15 +641,15 @@ nodes {
     w: 1.0
   }
   size {
-    x: 590.0
+    x: 400.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_TEXT
@@ -521,8 +673,8 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: true
-  parent: "root"
+  line_break: false
+  parent: "explorer_window"
   layer: "text"
   inherit_alpha: true
   alpha: 1.0
@@ -531,6 +683,10 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 layers {
   name: "below"
@@ -539,5 +695,5 @@ layers {
   name: "text"
 }
 material: "/builtins/materials/gui.material"
-adjust_reference: ADJUST_REFERENCE_LEGACY
+adjust_reference: ADJUST_REFERENCE_PARENT
 max_nodes: 512

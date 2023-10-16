@@ -46,6 +46,7 @@ end
 function init(self)
    msg.post(".", "acquire_input_focus")
    turn_on_free_mode()
+   turn_off_free_mode()
    window.set_listener(window_callback)
    defos.set_cursor_locked(false)
    self.cursors = { defos.CURSOR_HAND, defos.CURSOR_ARROW, defos.CURSOR_CROSSHAIR, defos.CURSOR_IBEAM, }

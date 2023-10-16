@@ -36,7 +36,7 @@ local function show_current_dir(self)
 	local ok, err = pcall(function()
 		-- get current dir and show it
 		local currentdir = lfs.currentdir()
-		gui.set_text(gui.get_node("currentdir"), currentdir or "?")
+		gui.set_text(gui.get_node("current_directory"), currentdir or "?")
 	
 		-- iterate current dir and show it's contents
 		-- reuse nodes or create new ones

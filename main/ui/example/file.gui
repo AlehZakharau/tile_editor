@@ -1,11 +1,11 @@
 script: ""
 fonts {
   name: "roboto"
-  font: "/example/assets/fonts/roboto.font"
+  font: "/assets/fonts/roboto.font"
 }
 textures {
   name: "example"
-  texture: "/example/assets/example.atlas"
+  texture: "/assets/file_system.atlas"
 }
 background_color {
   x: 0.0
@@ -33,7 +33,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 600.0
+    x: 400.0
     y: 40.0
     z: 0.0
     w: 1.0
@@ -66,10 +66,14 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: -290.0
+    x: -190.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -87,7 +91,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 580.0
+    x: 380.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -129,10 +133,14 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 69.12
+    x: 89.12
     y: 0.0
     z: 0.0
     w: 1.0
@@ -150,7 +158,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 50.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -192,10 +200,14 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 291.006
+    x: 191.00601
     y: 0.0
     z: 0.0
     w: 1.0
@@ -213,7 +225,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 50.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -255,6 +267,10 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
 }
 layers {
   name: "below"
