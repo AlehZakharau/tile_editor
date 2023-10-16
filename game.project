@@ -12,6 +12,6 @@ shared_state = 1
 input_method = HiddenInputField
 
 [project]
-dependencies = 
 title = tile_editor
+dependencies#0 = https://github.com/Insality/druid/archive/refs/tags/0.11.0.zip
 
