@@ -3,18 +3,21 @@ local hex = require("libraries/hexagon/hexagon")
 local map = require("main/code/map")
 
 local coord_text_node
+local world_coord_text_node
 local save_button_node
 
 function init(self)
    msg.post(".", "acquire_input_focus")
    coord_text_node = gui.get_node("label_coord")
+   world_coord_text_node = gui.get_node("label_world_coord")
    save_button_node = gui.get_node("save_button")
 end
 
 function update(self, dt)
    local world_position = input.get_cursor_world_position()
    local q, r = hex.pixel_to_flat_hex(world_position)
-   gui.set_text(coord_text_node, string.format("%.3f", world_position.x) .. " : " .. string.format("%.3f", world_position.y) .. "\n" .. q .. " : " .. r)
+   gui.set_text(coord_text_node, q .. " : " .. r)
+   gui.set_text(world_coord_text_node,  string.format("%.1f", world_position.x) .. " : " .. string.format("%.1f", world_position.y))
 end
 
 local pressed = false
