@@ -1,4 +1,6 @@
 -- delete gui nodes holding file entries
+local exlorer_model = require("main/ui/example/explorer_model")
+
 local function delete_file_nodes(nodes)
 	while #nodes > 0 do
 		local file = table.remove(nodes)
@@ -98,6 +100,7 @@ function init(self)
 	self.closenode = gui.get_node("close")
 	gui.set_enabled(self.fileproto, false)
 	gui.set_enabled(self.textnode, false)
+   exlorer_model.set_curent_directory(lfs.currentdir())
 	
 	-- change to application home if on android
 	-- (non rooted devices probably don't have read

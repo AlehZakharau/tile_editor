@@ -1,16 +1,19 @@
 local input = require("libraries/mobile_input/input")
 local hex = require("libraries/hexagon/hexagon")
 local map = require("main/code/map")
+local explorer_model = require("main/ui/example/explorer_model")
 
 local coord_text_node
 local world_coord_text_node
 local save_button_node
+local current_directory_text_node
 
 function init(self)
    msg.post(".", "acquire_input_focus")
    coord_text_node = gui.get_node("label_coord")
    world_coord_text_node = gui.get_node("label_world_coord")
    save_button_node = gui.get_node("save_button")
+   current_directory_text_node = gui.get_node("label_current_directory")
 end
 
 function update(self, dt)
@@ -31,5 +34,11 @@ function on_input(self, action_id, action)
    end
    if gui.pick_node(save_button_node, action.x, action.y) and action.released then
       pressed = false
+   end
+end
+
+function on_message(self, message_id, message)
+   if message_id == hash("update_directory") then
+      gui.set_text(current_directory_text_node, message.directory)
    end
 end
