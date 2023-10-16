@@ -1,10 +1,4 @@
 -- delete gui nodes holding file entries
-local exlorer_model = require("main/ui/example/explorer_model")
-local druid = require("druid.druid")
-
-local path_scroll
-local grid
-
 local function delete_file_nodes(nodes)
 	while #nodes > 0 do
 		local file = table.remove(nodes)
@@ -44,6 +38,8 @@ local function show_current_dir(self)
 		local currentdir = lfs.currentdir()
 		gui.set_text(gui.get_node("current_directory"), currentdir or "?")
 	
+      local a = lfs.chdir (currentdir)
+      print(a)
 		-- iterate current dir and show it's contents
 		-- reuse nodes or create new ones
 		for filename in lfs.dir(currentdir) do
@@ -54,19 +50,21 @@ local function show_current_dir(self)
 					rootnode = nodes[hash("fileproto/root")],
 					nodes = nodes,
 				}
+            print(filename.. " ".. b)
 				gui.set_enabled(file.rootnode, true)
 			end
-			gui.set_position(file.rootnode, gui.get_position(self.fileproto) - vmath.vector3(0, 45, 0) * #self.files)
-			table.insert(self.files, file)
-			
-			-- get file attributes and show permissions and file size
-			gui.set_text(file.nodes[hash("fileproto/name")], filename)
-			local attributes = lfs.attributes(currentdir .. "/" .. filename)
-			gui.set_text(file.nodes[hash("fileproto/permissions")], attributes and attributes.permissions or "?")
-			gui.set_text(file.nodes[hash("fileproto/size")], attributes and attributes.size or "?")
-			
-			file.name = filename
-			file.attributes = attributes or {}
+            gui.set_position(file.rootnode, gui.get_position(self.fileproto) - vmath.vector3(0, 45, 0) * #self.files)
+            table.insert(self.files, file)
+            
+            -- get file attributes and show permissions and file size
+            gui.set_text(file.nodes[hash("fileproto/name")], filename)
+            local attributes = lfs.attributes(currentdir .. "/" .. filename)
+            gui.set_text(file.nodes[hash("fileproto/permissions")], attributes and attributes.permissions or "?")
+            gui.set_text(file.nodes[hash("fileproto/size")], attributes and attributes.size or "?")
+            
+            file.name = filename
+            file.attributes = attributes or {}
+         
 		end
 	end)
 
@@ -98,22 +96,12 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-   self.druid = druid.new(self)
-   path_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
-	grid = self.druid:new_static_grid("scroll_content", "prefab_path", 1)
-	path_scroll:set_horizontal_scroll(false)
-   path_scroll.on_scroll:subscribe(function(_, point)
-		local y = path_scroll:get_percent().y
-		--scroll_slider:set(y, true)
-	end)
-
 	self.files = {}
 	self.fileproto = gui.get_node("fileproto/root")
 	self.textnode = gui.get_node("text")
 	self.closenode = gui.get_node("close")
 	gui.set_enabled(self.fileproto, false)
 	gui.set_enabled(self.textnode, false)
-   exlorer_model.set_curent_directory(lfs.currentdir())
 	
 	-- change to application home if on android
 	-- (non rooted devices probably don't have read
@@ -124,18 +112,6 @@ function init(self)
 	else
 		show_current_dir(self)
 	end
-end
-
-function final(self)
-   self.druid:final()
-end 
-
-function update(self, dt)
-   self.druid:update(dt)
-end
-
-function on_message(self, message_id, message, sender)
-   self.druid:on_message(message_id, message, sender)
 end
 
 
@@ -159,7 +135,6 @@ function on_input(self, action_id, action)
 			show_current_dir(self)
 		end
 	end
-   return self.druid:on_input(action_id, action)
 end
 
 function on_reload(self)

@@ -10,7 +10,7 @@
         - name: filepath
         - name: attributename
     
-    - name: chdir
+    - name: chdird
       type: function
     
       parameters:
