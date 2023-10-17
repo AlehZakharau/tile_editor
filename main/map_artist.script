@@ -22,16 +22,13 @@ local function draw_tile()
    if cursor_model.free_cursor_mode == false then return end
    local q, r = get_tile_coord()
    if map.has_tile(q, r) == false then
-      local tile_hash = draw_tile_sprite(hex.flat_hex_to_pixel(q, r))
-      map.add_tile(q, r, tile_hash)
+      map.add_tile(q, r)
    end
 end
 
 local function remove_tile()
    local q, r = get_tile_coord()
    if map.has_tile(q, r) then
-      local tile_hash = map.get_tile_hash(q, r)
-      remove_tile_sprite(tile_hash)
       map.remove_tile(q, r)
    end
 end
@@ -40,21 +37,9 @@ function init(self)
    input.hold_subscribe(draw_tile)
 end
 
-local function draw_map(level)
-   map.clear_current_map()
-   local new_map = map.load_map(level)
-   for i = 1, #map do 
-      local q, r = new_map[i][1], new_map[i][2]
-      if map.current_coord_map[q] == nil then map.current_coord_map[q] = {} end
-      local tile_hash = draw_tile_sprite(hex.flat_hex_to_pixel(q, r))
-      table.insert(map.current_map, {q, r})
-      map.current_coord_map[q][r] = {tile_hash, #map.current_map}
-   end
-end
-
 function on_message(self, message_id, message)
    if message_id == hash("change_map") then
-      draw_map(message.level)
+      map.draw_map(message.level)
    end
 end
 
