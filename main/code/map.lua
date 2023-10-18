@@ -27,6 +27,15 @@ local function remove_tile_sprite(tile_hash)
    go.delete(tile_hash)
 end
 
+local function load_map(level)
+   return map[level] or {}
+end
+
+local function change_level(level)
+   M.current_level = level
+   msg.post("/menu#menu", "update_lecel")
+end
+
 ----------------------------------------
 -- -- -- --'MAPS'-- -- -- --
 ----------------------------------------
@@ -41,10 +50,6 @@ local function clear_current_map()
    M.current_map = {}
    M.current_coord_map = {}
 end  
-
-local function load_map(level)
-   return map[level] or {}
-end
 
 function M.save_current_map(level) -- level
    local index = 0
@@ -106,7 +111,7 @@ end
 
 function M.draw_map(level)
    M.save_current_map(M.current_level)
-   M.current_level = level
+   change_level(level)
    clear_current_map()
    timer.delay(0.2, false, function ()
       print(map)
@@ -116,6 +121,13 @@ function M.draw_map(level)
          M.add_tile(q, r)
       end   
    end)
+end
+
+function M.draw_new_map()
+   M.save_current_map(M.current_level)
+   local levels = M.get_levels_amount()
+   change_level(levels + 1)
+   clear_current_map()
 end
 
 
