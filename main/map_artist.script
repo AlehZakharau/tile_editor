@@ -39,7 +39,8 @@ end
 
 function on_message(self, message_id, message)
    if message_id == hash("change_map") then
-      map.draw_map(message.level)
+      print(message.level)
+      --map.draw_map(message.level)
    end
 end
 

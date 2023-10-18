@@ -5,23 +5,10 @@ local cursor_model = require("main/code/cursor")
 local main_camera = hash("/camera")
 local cursor = hash("/cursor")
 local camera_archon = hash("/camera_archon")
-local cursor_sprite = "/cursor#sprite"
+
 local camera_speed = 15
 
 local cursor_previous_position = vmath.vector3()
-
-
-local function turn_off_free_mode()
-   cursor_model.free_cursor_mode = false
-   sprite.play_flipbook(cursor_sprite, hash("empty"))
-   defos.set_cursor_visible(true)
-end
-
-local function turn_on_free_mode()
-   cursor_model.free_cursor_mode = true
-   sprite.play_flipbook(cursor_sprite, hash("tile_selection"))
-   defos.set_cursor_visible(false)
-end
 
 function window_callback(self, event, data)
    if event == window.WINDOW_EVENT_FOCUS_LOST then
@@ -29,9 +16,9 @@ function window_callback(self, event, data)
       defos.set_cursor(self.cursors[1])
    elseif event == window.WINDOW_EVENT_FOCUS_GAINED then
        if cursor_model.free_cursor_mode == true then
-         turn_on_free_mode()
+         cursor_model.turn_on_free_mode()
        else
-         turn_off_free_mode()
+         cursor_model.turn_off_free_mode()
        end
    elseif event == window.WINDOW_EVENT_ICONFIED then
        print("window.WINDOW_EVENT_ICONFIED")
@@ -42,10 +29,9 @@ function window_callback(self, event, data)
    end
 end
 
-
 function init(self)
    msg.post(".", "acquire_input_focus")
-   turn_on_free_mode()
+   cursor_model.turn_on_free_mode()
    --turn_off_free_mode()
    window.set_listener(window_callback)
    defos.set_cursor_locked(false)
@@ -63,7 +49,7 @@ local function grab_mode(self, action_id, action)
    if action_id == hash("key_space") and action.pressed then
       cursor_previous_position = input.get_cursor_position()
       defos.set_cursor(self.cursors[1])
-      turn_off_free_mode()
+      cursor_model.turn_off_free_mode()
    end
    if action_id == hash("key_space") and input.get_touch_status() then
       defos.set_cursor(self.cursors[3])
@@ -79,7 +65,7 @@ local function grab_mode(self, action_id, action)
       end
    end
    if action_id == hash("key_space") and action.released then
-      turn_on_free_mode()
+      cursor_model.turn_on_free_mode()
       camera_model.unfollow(main_camera)
       cursor_previous_position = vmath.vector3(0, 0, 0) 
    end
