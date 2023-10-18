@@ -6,8 +6,10 @@ local M = {}
 --- [index] = {q, r}
 M.current_map = {}
 
---- [q] = {[r] = map[i]}
+--- [q] = {[r] = {tile_hash, map[i]}}
 M.current_coord_map = {}
+
+M.current_level = 1
 
 --- [profiles] = map 
 local maps = {}
@@ -29,12 +31,19 @@ end
 -- -- -- --'MAPS'-- -- -- --
 ----------------------------------------
 local function clear_current_map()
+   for k, v in pairs(M.current_coord_map) do
+      for n, m in pairs(v) do 
+         if m ~= 0 then 
+            remove_tile_sprite(m[1])
+         end
+      end
+   end
    M.current_map = {}
    M.current_coord_map = {}
 end  
 
 local function load_map(level)
-   return map[level]
+   return map[level] or {}
 end
 
 function M.save_current_map(level) -- level
@@ -96,12 +105,17 @@ end
 ----------------------------------------
 
 function M.draw_map(level)
+   M.save_current_map(M.current_level)
+   M.current_level = level
    clear_current_map()
-   local new_map = load_map(level)
-   for i = 1, #new_map do 
-      local q, r = new_map[i][1], new_map[i][2]
-      M.add_tile(q, r)
-   end
+   timer.delay(0.2, false, function ()
+      print(map)
+      local new_map = load_map(level)
+      for i = 1, #new_map do 
+         local q, r = new_map[i][1], new_map[i][2]
+         M.add_tile(q, r)
+      end   
+   end)
 end
 
 

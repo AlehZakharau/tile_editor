@@ -13,7 +13,6 @@ local function sum(a, b)
 end
 
 -- Main:
--- add two test level buttons
 -- draw and save maps
 -- add new empty map
 -- add buttons and scoll for levels
