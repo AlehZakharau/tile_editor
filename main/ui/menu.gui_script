@@ -30,6 +30,7 @@ local function add_level_button(self, level)
    self.druid:new_button(clone["level_prefab"], function()
       msg.post("/main#artist", "change_map", {level = level})
    end)   
+   gui.set_text(clone["level_button_label"], "Level_" .. level)
 end
 
 local function set_up_level_scroll(self)
@@ -89,6 +90,8 @@ function on_input(self, action_id, action)
          map.save_profile()
       end
       if gui.pick_node(new_level_node, action.x, action.y) then
+         local level = map.get_levels_amount()
+         add_level_button(self, level + 1)
          msg.post("/main#artist", "new_map")
       end
    end

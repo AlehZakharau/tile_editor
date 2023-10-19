@@ -18,6 +18,7 @@ local maps = {}
 local map = {}
 
 local factory_tile = "/factory_tile#tile"
+local local_map_path = "/res/map.json"
 
 local function draw_tile_sprite(spawn_position)
    return factory.create(factory_tile, spawn_position)
@@ -66,7 +67,7 @@ end
 
 function M.save_profile() --(profile)
    local map_json = json.encode(map)
-   local file = io.open("map.json", "w")
+   local file = io.open(local_map_path, "w")
    if file ~= nil then
       file.write(file, map_json)
       file.close(file)
@@ -74,8 +75,10 @@ function M.save_profile() --(profile)
 end
 
 function M.load_profile()
-   local test_json_file = sys.load_resource("/res/map.json")
-	map = json.decode(test_json_file)
+   local test_json_file = sys.load_resource(local_map_path)
+   if test_json_file ~= nil then 
+	   map = json.decode(test_json_file)
+   end
 end
 
 
