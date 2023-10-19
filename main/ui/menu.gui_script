@@ -23,6 +23,22 @@ local level_prefab
 -- read file 
 -- init scroll after read file
 
+local function add_level_button(self, level)
+   local clone = gui.clone_tree(level_prefab)
+   gui.set_enabled(clone["level_prefab"], true)
+   levels_grid:add(clone["level_prefab"])
+   self.druid:new_button(clone["level_prefab"], function()
+      msg.post("/main#artist", "change_map", {level = level})
+   end)   
+end
+
+local function set_up_level_scroll(self)
+   local levels = map.get_levels_amount()
+   for i = 1, levels, 1 do
+      add_level_button(self, i)
+   end
+end
+
 
 function init(self)
    self.druid = druid.new(self)
@@ -44,15 +60,6 @@ function init(self)
    levels_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
 	levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
 	levels_scroll:set_horizontal_scroll(false)
-   local levels = map.get_levels_amount()
-   for i = 1, levels, 1 do
-      local clone = gui.clone_tree(level_prefab)
-      gui.set_enabled(clone["level_prefab"], true)
-      levels_grid:add(clone["level_prefab"])
-      self.druid:new_button(clone["level_prefab"], function()
-         print("hi")
-      end)   
-   end
 end
 
 function update(self, dt)
@@ -94,6 +101,9 @@ function on_message(self, message_id, message)
    end
    if message_id == hash("update_lecel") then 
       gui.set_text(level_text_node, "Level: " .. map.current_level)
+   end
+   if message_id == hash("init_levels") then 
+      set_up_level_scroll(self)
    end
    self.druid:on_message(message_id, message, sender)
 end
