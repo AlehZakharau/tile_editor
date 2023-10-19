@@ -73,6 +73,10 @@ function M.save_profile() --(profile)
    end
 end
 
+function M.load_profile()
+   local test_json_file = sys.load_resource("/res/map.json")
+	map = json.decode(test_json_file)
+end
 
 
 ----------------------------------------

@@ -13,8 +13,6 @@ local function sum(a, b)
 end
 
 -- Main:
--- draw and save maps
--- add new empty map
 -- add buttons and scoll for levels
 -- add input field for save path
 -- add local save 

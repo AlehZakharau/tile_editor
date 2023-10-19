@@ -3,6 +3,7 @@ local hex = require("libraries/hexagon/hexagon")
 local map = require("main/code/map")
 local explorer_model = require("main/ui/example/explorer_model")
 local cursor_model = require("main/code/cursor")
+local druid = require("druid.druid")
 
 local coord_text_node
 local world_coord_text_node
@@ -12,38 +13,62 @@ local current_directory_text_node
 
 local left_panel_node
 local right_panel_node
-
-local level_1_node
-local level_2_node
 local new_level_node
 
+local levels_scroll
+local levels_grid
+
+local level_prefab
+
+-- read file 
+-- init scroll after read file
+
+
 function init(self)
+   self.druid = druid.new(self)
    msg.post(".", "acquire_input_focus")
    coord_text_node = gui.get_node("label_coord")
    world_coord_text_node = gui.get_node("label_world_coord")
    level_text_node = gui.get_node("level_label")
    save_button_node = gui.get_node("save_button")
    current_directory_text_node = gui.get_node("label_current_directory")
-   level_1_node = gui.get_node("level_1")
-   level_2_node = gui.get_node("level_2")
    left_panel_node = gui.get_node("left_panel")
    right_panel_node = gui.get_node("right_panel")
    new_level_node = gui.get_node("new_level")
+   level_prefab = gui.get_node("level_prefab")
+   gui.set_enabled(level_prefab, false)
    self.left_panel_size = gui.get_size(left_panel_node)
    self.right_panel_size = gui.get_size(right_panel_node)
    self.width = gui.get_width()
    gui.set_text(level_text_node, "Level: " .. map.current_level)
+   levels_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
+	levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
+	levels_scroll:set_horizontal_scroll(false)
+   local levels = map.get_levels_amount()
+   for i = 1, levels, 1 do
+      local clone = gui.clone_tree(level_prefab)
+      gui.set_enabled(clone["level_prefab"], true)
+      levels_grid:add(clone["level_prefab"])
+      self.druid:new_button(clone["level_prefab"], function()
+         print("hi")
+      end)   
+   end
 end
 
 function update(self, dt)
+   self.druid:update(dt)
    local world_position = input.get_cursor_world_position()
    local q, r = hex.pixel_to_flat_hex(world_position)
    gui.set_text(coord_text_node, q .. " : " .. r)
    gui.set_text(world_coord_text_node,  string.format("%.1f", world_position.x) .. " : " .. string.format("%.1f", world_position.y))
 end
 
+function final(self)
+	self.druid:final()
+end
+
 function on_input(self, action_id, action)
-    local cursor_position = input.get_cursor_position()
+   local cursor_position = input.get_cursor_position()
    if cursor_position.x < self.left_panel_size.x or 
    cursor_position.x > self.width - self.right_panel_size.x then
       cursor_model.turn_off_free_mode()
@@ -56,16 +81,11 @@ function on_input(self, action_id, action)
          map.save_current_map(1)
          map.save_profile()
       end
-      if gui.pick_node(level_1_node, action.x, action.y) then
-         msg.post("/main#artist", "change_map", {level = 1})
-      end
-      if gui.pick_node(level_2_node, action.x, action.y) then
-         msg.post("/main#artist", "change_map", {level = 2})
-      end
       if gui.pick_node(new_level_node, action.x, action.y) then
          msg.post("/main#artist", "new_map")
       end
    end
+   return self.druid:on_input(action_id, action)
 end
 
 function on_message(self, message_id, message)
@@ -75,4 +95,5 @@ function on_message(self, message_id, message)
    if message_id == hash("update_lecel") then 
       gui.set_text(level_text_node, "Level: " .. map.current_level)
    end
+   self.druid:on_message(message_id, message, sender)
 end

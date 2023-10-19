@@ -5,14 +5,6 @@ local cursor_model = require("main/code/cursor")
 
 local factory_tile = "/factory_tile#tile"
 
-local function draw_tile_sprite(spawn_position)
-   return factory.create(factory_tile, spawn_position)
-end
-
-local function remove_tile_sprite(tile_hash)
-   go.delete(tile_hash)
-end
-
 local function get_tile_coord()
    local cursor_world_position = input.get_cursor_world_position()
    return hex.pixel_to_flat_hex(cursor_world_position)
@@ -35,6 +27,7 @@ end
 
 function init(self)
    input.hold_subscribe(draw_tile)
+   map.load_profile()
 end
 
 function on_message(self, message_id, message)
