@@ -69,18 +69,49 @@ function M.get_levels_amount()
 end
 
 function M.save_profile() --(profile)
+   M.save_current_map(M.current_level)
    local map_json = json.encode(map)
-   local file = io.open(local_map_path, "w")
+   local file = io.open("res/map.json", "w")
    if file ~= nil then
       file.write(file, map_json)
       file.close(file)
    end
 end
 
+----------------------------------------
+-- -- -- --'DRAW MAP'-- -- -- --
+----------------------------------------
+
+function M.draw_map(level)
+   M.save_current_map(M.current_level)
+   change_level(level)
+   clear_current_map()
+   timer.delay(0.2, false, function ()
+      print(map)
+      local new_map = load_map(level)
+      for i = 1, #new_map do 
+         local q, r = new_map[i][1], new_map[i][2]
+         M.add_tile(q, r)
+      end   
+   end)
+end
+
+function M.draw_new_map()
+   M.save_current_map(M.current_level)
+   local levels = M.get_levels_amount()
+   change_level(levels + 1)
+   clear_current_map()
+end
+
+
+
+
 function M.load_profile()
    local test_json_file = sys.load_resource(local_map_path)
    if test_json_file ~= nil then 
 	   map = json.decode(test_json_file)
+      M.current_map = map[1]
+      M.draw_map(1)
    end
 end
 
@@ -114,31 +145,5 @@ function M.has_tile(q, r)
    end
    return false
 end
-
-----------------------------------------
--- -- -- --'DRAW MAP'-- -- -- --
-----------------------------------------
-
-function M.draw_map(level)
-   M.save_current_map(M.current_level)
-   change_level(level)
-   clear_current_map()
-   timer.delay(0.2, false, function ()
-      print(map)
-      local new_map = load_map(level)
-      for i = 1, #new_map do 
-         local q, r = new_map[i][1], new_map[i][2]
-         M.add_tile(q, r)
-      end   
-   end)
-end
-
-function M.draw_new_map()
-   M.save_current_map(M.current_level)
-   local levels = M.get_levels_amount()
-   change_level(levels + 1)
-   clear_current_map()
-end
-
 
 return M
