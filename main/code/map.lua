@@ -63,7 +63,6 @@ function M.remove_map(level)
    table_utility.remove_element(map, level)
 end
 
-
 function M.get_levels_amount()
    return #map or 1
 end
@@ -87,7 +86,6 @@ function M.draw_map(level)
    change_level(level)
    clear_current_map()
    timer.delay(0.2, false, function ()
-      print(map)
       local new_map = load_map(level)
       for i = 1, #new_map do 
          local q, r = new_map[i][1], new_map[i][2]
@@ -102,9 +100,6 @@ function M.draw_new_map()
    change_level(levels + 1)
    clear_current_map()
 end
-
-
-
 
 function M.load_profile()
    local test_json_file = sys.load_resource(local_map_path)

@@ -22,11 +22,6 @@ local levels_grid
 
 local level_prefab
 
--- read file 
--- init scroll after read file
-
-local buttons = {}
-
 local function add_level_button(self, level)
    local clone = gui.clone_tree(level_prefab)
    gui.set_enabled(clone["level_prefab"], true)
@@ -36,7 +31,6 @@ local function add_level_button(self, level)
          level = level
       })
    end)   
-   buttons[level] = clone["level_prefab"]
    gui.set_text(clone["level_button_label"], "Level_" .. level)
 end
 
@@ -45,8 +39,10 @@ local function set_up_level_scroll(self)
    for i = 1, levels, 1 do
       add_level_button(self, i)
    end
+   if levels == 0 then
+      add_level_button(self, 1)
+   end
 end
-
 
 function init(self)
    self.druid = druid.new(self)
@@ -66,9 +62,9 @@ function init(self)
    self.width = gui.get_width()
    gui.set_text(level_text_node, "Level: " .. map.current_level)
    levels_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
-	levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
+   levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
    self.druid:new_input("input_box_path", "input_text_path")
-	levels_scroll:set_horizontal_scroll(false)
+   levels_scroll:set_horizontal_scroll(false)
 end
 
 function update(self, dt)
@@ -80,7 +76,7 @@ function update(self, dt)
 end
 
 function final(self)
-	self.druid:final()
+   self.druid:final()
 end
 
 function on_input(self, action_id, action)
@@ -93,8 +89,6 @@ function on_input(self, action_id, action)
    end
    if action_id == hash("touch") and action.pressed then
       if gui.pick_node(save_button_node, action.x, action.y) then
-         print("map saved")
-         map.save_current_map(1)
          map.save_profile()
       end
       if gui.pick_node(new_level_node, action.x, action.y) then
@@ -106,7 +100,7 @@ function on_input(self, action_id, action)
    return self.druid:on_input(action_id, action)
 end
 
-function on_message(self, message_id, message)
+function on_message(self, message_id, message, sender)
    if message_id == hash("update_directory") then
       gui.set_text(current_directory_text_node, message.directory)
    end
