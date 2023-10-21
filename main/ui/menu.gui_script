@@ -17,6 +17,7 @@ local new_level_node
 
 local levels_scroll
 local levels_grid
+local path_input_field
 
 local level_prefab
 
@@ -60,7 +61,8 @@ function init(self)
    levels_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
    levels_scroll:set_horizontal_scroll(false)
    levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
-   self.druid:new_input("input_box_path", "input_text_path")
+   path_input_field = self.druid:new_input("input_box_path", "input_text_path")
+   path_input_field:set_text(map.save_path)
 end
 
 function update(self, dt)

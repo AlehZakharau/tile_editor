@@ -10,6 +10,7 @@ M.current_map = {}
 M.current_coord_map = {}
 
 M.current_level = 1
+M.save_path = "/res/map.json"
 
 --- [profiles] = map 
 local maps = {}
