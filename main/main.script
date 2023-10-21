@@ -13,11 +13,12 @@ local function sum(a, b)
 end
 
 -- Main:
--- add buttons and scoll for levels
--- add input field for save path
 -- add local save 
 -- add autosave
 -- save and load map
+-- change cursor when input field selected
+-- read input field
+-- show saved path in input field
 
 
 --Aditional:

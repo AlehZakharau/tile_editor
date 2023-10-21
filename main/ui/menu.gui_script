@@ -4,6 +4,7 @@ local map = require("main/code/map")
 local explorer_model = require("main/ui/example/explorer_model")
 local cursor_model = require("main/code/cursor")
 local druid = require("druid.druid")
+local druid_input = require("druid.extended.input")
 local table_utility = require("libraries/table_utility/table_utility")
 
 local coord_text_node
@@ -49,12 +50,12 @@ end
 
 function init(self)
    self.druid = druid.new(self)
+   druid.register("input", druid_input)
    msg.post(".", "acquire_input_focus")
    coord_text_node = gui.get_node("label_coord")
    world_coord_text_node = gui.get_node("label_world_coord")
    level_text_node = gui.get_node("level_label")
    save_button_node = gui.get_node("save_button")
-   current_directory_text_node = gui.get_node("label_current_directory")
    left_panel_node = gui.get_node("left_panel")
    right_panel_node = gui.get_node("right_panel")
    new_level_node = gui.get_node("new_level")
@@ -66,6 +67,7 @@ function init(self)
    gui.set_text(level_text_node, "Level: " .. map.current_level)
    levels_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
 	levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
+   self.druid:new_input("input_box_path", "input_text_path")
 	levels_scroll:set_horizontal_scroll(false)
 end
 

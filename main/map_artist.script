@@ -29,6 +29,7 @@ function init(self)
    input.hold_subscribe(draw_tile)
    map.load_profile()
    msg.post("/menu#menu", "init_levels")
+   map.draw_map(1)
 end
 
 function on_message(self, message_id, message)
