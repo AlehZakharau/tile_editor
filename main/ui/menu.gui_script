@@ -1,11 +1,9 @@
 local input = require("libraries/mobile_input/input")
 local hex = require("libraries/hexagon/hexagon")
 local map = require("main/code/map")
-local explorer_model = require("main/ui/example/explorer_model")
 local cursor_model = require("main/code/cursor")
 local druid = require("druid.druid")
 local druid_input = require("druid.extended.input")
-local table_utility = require("libraries/table_utility/table_utility")
 
 local coord_text_node
 local world_coord_text_node
@@ -27,9 +25,7 @@ local function add_level_button(self, level)
    gui.set_enabled(clone["level_prefab"], true)
    levels_grid:add(clone["level_prefab"])
    self.druid:new_button(clone["level_prefab"], function()
-      msg.post("/main#artist", "change_map", {
-         level = level
-      })
+      msg.post("/main#artist", "change_map", {level = level})
    end)   
    gui.set_text(clone["level_button_label"], "Level_" .. level)
 end
@@ -39,15 +35,12 @@ local function set_up_level_scroll(self)
    for i = 1, levels, 1 do
       add_level_button(self, i)
    end
-   if levels == 0 then
-      add_level_button(self, 1)
-   end
+   if levels == 0 then add_level_button(self, 1) end
 end
 
 function init(self)
    self.druid = druid.new(self)
    druid.register("input", druid_input)
-   msg.post(".", "acquire_input_focus")
    coord_text_node = gui.get_node("label_coord")
    world_coord_text_node = gui.get_node("label_world_coord")
    level_text_node = gui.get_node("level_label")
@@ -55,16 +48,19 @@ function init(self)
    left_panel_node = gui.get_node("left_panel")
    right_panel_node = gui.get_node("right_panel")
    new_level_node = gui.get_node("new_level")
+
    level_prefab = gui.get_node("level_prefab")
    gui.set_enabled(level_prefab, false)
+
    self.left_panel_size = gui.get_size(left_panel_node)
    self.right_panel_size = gui.get_size(right_panel_node)
    self.width = gui.get_width()
+
    gui.set_text(level_text_node, "Level: " .. map.current_level)
    levels_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
+   levels_scroll:set_horizontal_scroll(false)
    levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
    self.druid:new_input("input_box_path", "input_text_path")
-   levels_scroll:set_horizontal_scroll(false)
 end
 
 function update(self, dt)

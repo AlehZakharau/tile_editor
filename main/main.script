@@ -16,6 +16,7 @@ local hex = require("libraries/hexagon/hexagon")
 function init(self)
    msg.post("/camera", "acquire_input_focus")
    msg.post("/main#artist", "acquire_input_focus")
+   msg.post("/menu#menu", "acquire_input_focus")
    hex.size = 76.8 * 0.5
    
 end
