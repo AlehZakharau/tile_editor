@@ -34,7 +34,7 @@ end
 
 local function change_level(level)
    M.current_level = level
-   msg.post("/menu#menu", "update_lecel")
+   msg.post("/menu#menu", "update_level")
 end
 
 ----------------------------------------
@@ -53,11 +53,14 @@ local function clear_current_map()
 end  
 
 function M.save_current_map(level) -- level
-   local index = 0
    map[level] = {}
    for i = 1, #M.current_map, 1 do
       table.insert(map[level], M.current_map[i])
    end
+end
+
+function M.remove_map(level)
+   table_utility.remove_element(map, level)
 end
 
 

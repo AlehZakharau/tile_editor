@@ -4,6 +4,7 @@ local map = require("main/code/map")
 local explorer_model = require("main/ui/example/explorer_model")
 local cursor_model = require("main/code/cursor")
 local druid = require("druid.druid")
+local table_utility = require("libraries/table_utility/table_utility")
 
 local coord_text_node
 local world_coord_text_node
@@ -23,13 +24,18 @@ local level_prefab
 -- read file 
 -- init scroll after read file
 
+local buttons = {}
+
 local function add_level_button(self, level)
    local clone = gui.clone_tree(level_prefab)
    gui.set_enabled(clone["level_prefab"], true)
    levels_grid:add(clone["level_prefab"])
    self.druid:new_button(clone["level_prefab"], function()
-      msg.post("/main#artist", "change_map", {level = level})
+      msg.post("/main#artist", "change_map", {
+         level = level
+      })
    end)   
+   buttons[level] = clone["level_prefab"]
    gui.set_text(clone["level_button_label"], "Level_" .. level)
 end
 
@@ -90,7 +96,7 @@ function on_input(self, action_id, action)
          map.save_profile()
       end
       if gui.pick_node(new_level_node, action.x, action.y) then
-         local level = map.get_levels_amount()
+         local level = map.current_level
          add_level_button(self, level + 1)
          msg.post("/main#artist", "new_map")
       end
@@ -102,7 +108,7 @@ function on_message(self, message_id, message)
    if message_id == hash("update_directory") then
       gui.set_text(current_directory_text_node, message.directory)
    end
-   if message_id == hash("update_lecel") then 
+   if message_id == hash("update_level") then 
       gui.set_text(level_text_node, "Level: " .. map.current_level)
    end
    if message_id == hash("init_levels") then 
