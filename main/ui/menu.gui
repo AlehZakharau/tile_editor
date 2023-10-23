@@ -255,7 +255,7 @@ nodes {
 nodes {
   position {
     x: -24.0
-    y: 0.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -266,8 +266,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.75
-    y: 0.75
+    x: 0.4
+    y: 0.4
     z: 1.0
     w: 1.0
   }
@@ -278,9 +278,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.898
+    y: 0.145
+    z: 0.329
     w: 1.0
   }
   type: TYPE_TEXT
@@ -352,7 +352,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "ui/button"
   id: "fill_color"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -411,7 +411,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "ui/button"
   id: "new_level"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -451,8 +451,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.4
+    y: 0.4
     z: 1.0
     w: 1.0
   }
@@ -463,9 +463,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.898
+    y: 0.145
+    z: 0.329
     w: 1.0
   }
   type: TYPE_TEXT
@@ -518,8 +518,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -840,13 +840,72 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "ui/button"
   id: "save_button"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "Archon_NE"
+  layer: "below"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
+}
+nodes {
+  position {
+    x: 0.0
+    y: 1.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.922142
+    y: 0.941438
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 70.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.158
+    y: 0.162
+    z: 0.165
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "save_button"
   layer: "below"
   inherit_alpha: true
   slice9 {
@@ -880,8 +939,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.4
+    y: 0.4
     z: 1.0
     w: 1.0
   }
@@ -892,9 +951,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.8
+    y: 0.8
+    z: 0.8
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1006,8 +1065,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1132,8 +1191,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1199,8 +1258,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }

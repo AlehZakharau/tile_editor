@@ -2,7 +2,6 @@ local hex = require("libraries/hexagon/hexagon")
 local map = require("main/code/map")
 
 -- Main:
--- add autosave
 -- change cursor when input field selected
 -- read input field
 -- show saved path in input field
