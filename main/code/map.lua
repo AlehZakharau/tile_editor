@@ -1,5 +1,5 @@
-local table_utility = require("libraries/table_utility/table_utility")
-local hex = require("libraries/hexagon/hexagon")
+local table_utility = require("lib/table_utility/table_utility")
+local hex = require("lib/hexagon/hexagon")
 
 local M = {}
 

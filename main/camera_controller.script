@@ -1,5 +1,5 @@
-local camera_model = require "libraries/orthographic.camera"
-local input = require ("libraries/mobile_input/input")
+local camera_model = require "lib/orthographic.camera"
+local input = require ("lib/mobile_input/input")
 local cursor_model = require("main/code/cursor")
 
 local main_camera = hash("/camera")

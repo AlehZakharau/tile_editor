@@ -6,10 +6,13 @@ local map = require("main/code/map")
 -- read input field
 -- show saved path in input field
 -- save on the machine
+-- add tile counter 
 
 --Aditional:
 -- prepare drag cursor in tiff format 
 -- load drag cursor
+-- add header panel
+-- add observer
 
 -- Bugs:
 -- debug build

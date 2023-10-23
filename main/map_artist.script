@@ -1,5 +1,5 @@
-local hex = require("libraries/hexagon/hexagon")
-local input = require("libraries/mobile_input/input")
+local hex = require("lib/hexagon/hexagon")
+local input = require("lib/mobile_input/input")
 local map = require("main/code/map")
 local cursor_model = require("main/code/cursor")
 
