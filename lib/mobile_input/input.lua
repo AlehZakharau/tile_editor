@@ -1,4 +1,4 @@
-input_model = require("libraries/mobile_input/input_model")
+input_model = require("lib/mobile_input/input_model")
 
 local M = {}
 

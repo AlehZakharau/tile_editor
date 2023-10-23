@@ -1,1 +1,1 @@
-script: "/libraries/orthographic/render/orthographic.render_script"
+script: "/lib/orthographic/render/orthographic.render_script"

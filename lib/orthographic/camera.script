@@ -28,7 +28,7 @@ go.property("viewport_bottom", 0)
 go.property("viewport_right", 0)
 go.property("viewport_top", 0)
 
-local camera = require "libraries/orthographic.camera"
+local camera = require "lib/orthographic.camera"
 
 local function has_active_follow_target(follow_id)
 	local ok, err = pcall(go.get_position, follow_id)

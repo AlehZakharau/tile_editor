@@ -1,4 +1,4 @@
-local mathf = require("libraries.mathf.mathf")
+local mathf = require("lib.mathf.mathf")
 
 local M = {}
 

@@ -1,6 +1,6 @@
 components {
   id: "script"
-  component: "/libraries/orthographic/camera.script"
+  component: "/lib/orthographic/camera.script"
   position {
     x: 0.0
     y: 0.0

@@ -1,7 +1,7 @@
 name: "main"
 instances {
   id: "camera"
-  prototype: "/libraries/orthographic/camera.go"
+  prototype: "/lib/orthographic/camera.go"
   position {
     x: 0.0
     y: 0.0
@@ -101,7 +101,7 @@ embedded_instances {
   "}\n"
   "components {\n"
   "  id: \"input\"\n"
-  "  component: \"/libraries/mobile_input/input.script\"\n"
+  "  component: \"/lib/mobile_input/input.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"

@@ -1,4 +1,4 @@
-local hex = require("libraries/hexagon/hexagon")
+local hex = require("lib/hexagon/hexagon")
 local map = require("main/code/map")
 
 -- Main:

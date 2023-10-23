@@ -1,4 +1,4 @@
-local camera = require "libraries/orthographic.camera"
+local camera = require "lib/orthographic.camera"
 
 camera.ORTHOGRAPHIC_RENDER_SCRIPT_USED = true
 

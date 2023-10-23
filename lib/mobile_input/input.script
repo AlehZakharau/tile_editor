@@ -14,9 +14,9 @@ go.property("bound_top", 1000)
 go.property("bound_bottom", -1000)
 go.property("smooth_movement", true)
 
-local mathf = require "libraries.mathf.mathf"
-local input_world = require "libraries.mobile_input.input_world"
-local input_module = require ("libraries/mobile_input/input_model")
+local mathf = require "lib.mathf.mathf"
+local input_world = require "lib.mobile_input.input_world"
+local input_module = require ("lib/mobile_input/input_model")
 
 
 

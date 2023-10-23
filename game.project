@@ -1,6 +1,6 @@
 [bootstrap]
 main_collection = /main/main.collectionc
-render = /libraries/orthographic/render/orthographic.renderc
+render = /lib/orthographic/render/orthographic.renderc
 
 [input]
 game_binding = /builtins/input/all.input_bindingc
