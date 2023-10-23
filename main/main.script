@@ -5,13 +5,14 @@ local hex = require("libraries/hexagon/hexagon")
 -- change cursor when input field selected
 -- read input field
 -- show saved path in input field
-
+-- save on the machine
 
 --Aditional:
 -- prepare drag cursor in tiff format 
 -- load drag cursor
 
 -- Bugs:
+-- debug build
 
 function init(self)
    msg.post("/camera", "acquire_input_focus")
