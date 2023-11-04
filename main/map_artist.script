@@ -3,6 +3,7 @@ local input = require("lib/mobile_input/input")
 local map = require("main/code/map")
 local cursor_model = require("main/code/cursor")
 
+
 local factory_tile = "/factory_tile#tile"
 
 local function get_tile_coord()
@@ -29,7 +30,6 @@ function init(self)
    input.hold_subscribe(draw_tile)
    map.load_profile()
    msg.post("/menu#menu", "init_levels")
-
 end
 
 function on_message(self, message_id, message)

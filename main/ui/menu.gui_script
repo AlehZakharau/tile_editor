@@ -4,8 +4,10 @@ local map = require("main/code/map")
 local cursor_model = require("main/code/cursor")
 local druid = require("druid.druid")
 local druid_input = require("druid.extended.input")
+local hash_table = require("main/hash_table")
 
 local coord_text_node
+local tile_count_node
 local world_coord_text_node
 local level_text_node
 local save_button_node
@@ -15,19 +17,17 @@ local left_panel_node
 local right_panel_node
 local new_level_node
 
-local levels_scroll
-local levels_grid
 local path_input_field
 
 local level_prefab
+local level_buttons = {}
 
 local function add_level_button(self, level)
    local clone = gui.clone_tree(level_prefab)
    gui.set_enabled(clone["level_prefab"], true)
-   levels_grid:add(clone["level_prefab"])
-   self.druid:new_button(clone["level_prefab"], function()
-      msg.post("/main#artist", "change_map", {level = level})
-   end)   
+   local pos = vmath.vector3(50, -50 - 30 * level, 0.2)
+   gui.set_position(clone["level_prefab"], pos) 
+   table.insert(level_buttons, {node = clone["level_prefab"], level = level})
    gui.set_text(clone["level_button_label"], "Level_" .. level)
 end
 
@@ -49,6 +49,7 @@ function init(self)
    left_panel_node = gui.get_node("left_panel")
    right_panel_node = gui.get_node("right_panel")
    new_level_node = gui.get_node("new_level")
+   tile_count_node = gui.get_node("label_tile_count")
 
    level_prefab = gui.get_node("level_prefab")
    gui.set_enabled(level_prefab, false)
@@ -56,11 +57,8 @@ function init(self)
    self.left_panel_size = gui.get_size(left_panel_node)
    self.right_panel_size = gui.get_size(right_panel_node)
    self.width = gui.get_width()
-
+   
    gui.set_text(level_text_node, "Level: " .. map.current_level)
-   levels_scroll = self.druid:new_scroll("scroll_root", "scroll_content")
-   levels_scroll:set_horizontal_scroll(false)
-   levels_grid = self.druid:new_static_grid("scroll_content", "level_prefab", 1)
    path_input_field = self.druid:new_input("input_box_path", "input_text_path")
    path_input_field:set_text(map.save_path)
 end
@@ -94,6 +92,20 @@ function on_input(self, action_id, action)
          add_level_button(self, level + 1)
          msg.post("/main#artist", "new_map")
       end
+      for k, v in pairs(level_buttons) do
+         if gui.pick_node(v.node, action.x, action.y) then
+            msg.post("/main#artist", "change_map", {level = v.level})
+         end
+      end
+   end
+   if action_id == hash("mouse_button_2") and action.pressed then
+      for k, v in pairs(level_buttons) do
+         if gui.pick_node(v.node, action.x, action.y) then
+            map.remove_map(v.level)
+            gui.delete_node(v.node)
+            level_buttons[v.level] = nil
+         end
+      end
    end
    return self.druid:on_input(action_id, action)
 end
@@ -107,6 +119,9 @@ function on_message(self, message_id, message, sender)
    end
    if message_id == hash("init_levels") then 
       set_up_level_scroll(self)
+   end
+   if message_id == hash_table.tile_spawned then
+      gui.set_text(tile_count_node, "Tiles: " .. message.tiles)
    end
    self.druid:on_message(message_id, message, sender)
 end

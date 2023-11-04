@@ -1,5 +1,7 @@
 local table_utility = require("lib/table_utility/table_utility")
 local hex = require("lib/hexagon/hexagon")
+local messanger = require("lib/messanger/messanger")
+local hash_table = require("main/hash_table")
 
 local M = {}
 
@@ -61,7 +63,9 @@ function M.save_current_map(level) -- level
 end
 
 function M.remove_map(level)
-   table_utility.remove_element(map, level)
+   map[level] = nil
+   pprint(map)
+   --table_utility.remove_element(map, level)
 end
 
 function M.get_levels_amount()
@@ -70,7 +74,12 @@ end
 
 function M.save_profile() --(profile)
    M.save_current_map(M.current_level)
-   local map_json = json.encode(map)
+   local map_data = {}
+   for k, v in pairs(map) do
+      table.insert(map_data, v)
+   end
+   pprint(map_data)
+   local map_json = json.encode(map_data)
    local file = io.open("res/map.json", "w")
    if file ~= nil then
       file.write(file, map_json)
@@ -84,6 +93,7 @@ end
 
 function M.draw_map(level)
    M.save_current_map(M.current_level)
+   M.tile_count = 0
    change_level(level)
    clear_current_map()
    timer.delay(0.2, false, function ()
@@ -115,12 +125,15 @@ end
 ----------------------------------------
 -- -- -- --'TILE'-- -- -- --
 ----------------------------------------
+M.tile_count = 0
 
 function M.add_tile(q, r)
    if M.current_coord_map[q] == nil then M.current_coord_map[q] = {} end
    local tile_hash = draw_tile_sprite(hex.flat_hex_to_pixel(q, r))
    table.insert(M.current_map, {q, r})
    M.current_coord_map[q][r] = {tile_hash, #M.current_map}
+   M.tile_count = M.tile_count + 1
+   messanger.push_notification(hash_table.tile_spawned, {tiles = M.tile_count})
 end
 
 local function get_tile_hash(q, r)
@@ -133,6 +146,8 @@ function M.remove_tile(q, r)
    local tile_id = M.current_coord_map[q][r][2]
    table_utility.remove_element(M.current_map, tile_id)
    M.current_coord_map[q][r] = 0
+   M.tile_count = M.tile_count - 1
+   messanger.push_notification(hash_table.tile_spawned, {tiles = M.tile_count})
 end
 
 function M.has_tile(q, r)
