@@ -8,13 +8,15 @@ local hash_table = require("main/hash_table")
 -- read input field
 -- show saved path in input field
 -- save on the machine
--- add tile counter 
+-- add profiles
+-- possible to rename map sets
+-- list of map sets (update list of the levels)
+-- remove map sets
 
 --Aditional:
 -- prepare drag cursor in tiff format 
 -- load drag cursor
 -- add header panel
--- add observer
 
 -- Bugs:
 -- debug build
