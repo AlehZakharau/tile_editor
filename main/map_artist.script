@@ -12,10 +12,11 @@ local function get_tile_coord()
 end
 
 local function draw_tile()
-   if cursor_model.free_cursor_mode == false then return end
-   local q, r = get_tile_coord()
-   if map.has_tile(q, r) == false then
-      map.add_tile(q, r)
+   if cursor_model.free_cursor_mode then 
+      q, r = get_tile_coord()
+      if map.has_tile(q, r) == false then
+         map.add_tile(q, r)
+      end
    end
 end
 

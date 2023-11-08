@@ -1344,7 +1344,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "<text>"
+  text: "Tiles: 0"
   font: "roboto"
   id: "label_tile_count"
   xanchor: XANCHOR_NONE

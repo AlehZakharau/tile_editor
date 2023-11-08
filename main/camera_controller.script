@@ -50,6 +50,7 @@ local function grab_mode(self, action_id, action)
       cursor_previous_position = input.get_cursor_position()
       defos.set_cursor(self.cursors[1])
       cursor_model.turn_off_free_mode()
+      cursor_model.hold = true
    end
    if action_id == hash("key_space") and input.get_touch_status() then
       defos.set_cursor(self.cursors[3])
@@ -66,6 +67,7 @@ local function grab_mode(self, action_id, action)
    end
    if action_id == hash("key_space") and action.released then
       cursor_model.turn_on_free_mode()
+      cursor_model.hold = false
       camera_model.unfollow(main_camera)
       cursor_previous_position = vmath.vector3(0, 0, 0) 
    end

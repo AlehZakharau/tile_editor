@@ -38,6 +38,8 @@ end
 local function change_level(level)
    M.current_level = level
    msg.post("/menu#menu", "update_level")
+   M.tile_count = 0
+   messanger.push_notification(hash_table.tile_spawned, {tiles = M.tile_count})
 end
 
 ----------------------------------------
@@ -46,8 +48,9 @@ end
 local function clear_current_map()
    for k, v in pairs(M.current_coord_map) do
       for n, m in pairs(v) do 
-         if m ~= 0 then 
+         if m[1] ~= nil then 
             remove_tile_sprite(m[1])
+            M.current_coord_map[k][n] = nil
          end
       end
    end
@@ -145,7 +148,7 @@ function M.remove_tile(q, r)
    remove_tile_sprite(tile_hash)
    local tile_id = M.current_coord_map[q][r][2]
    table_utility.remove_element(M.current_map, tile_id)
-   M.current_coord_map[q][r] = 0
+   M.current_coord_map[q][r] = nil
    M.tile_count = M.tile_count - 1
    messanger.push_notification(hash_table.tile_spawned, {tiles = M.tile_count})
 end

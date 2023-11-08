@@ -2,6 +2,7 @@ local M = {}
 
 local cursor_sprite = "/cursor#sprite"
 M.free_cursor_mode = true
+M.hold = false
 
 function M.turn_off_free_mode()
    M.free_cursor_mode = false

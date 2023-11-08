@@ -80,7 +80,7 @@ function on_input(self, action_id, action)
    if cursor_position.x < self.left_panel_size.x or 
    cursor_position.x > self.width - self.right_panel_size.x then
       cursor_model.turn_off_free_mode()
-   elseif cursor_model.free_cursor_mode == false then
+   elseif cursor_model.hold == false then
       cursor_model.turn_on_free_mode()
    end
    if action_id == hash("touch") and action.pressed then
