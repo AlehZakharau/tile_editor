@@ -51,9 +51,21 @@ function M.remove_profile(profile_name)
    end
 end
 
+function M.rename_profile(profile_name, new_name)
+   if M.current_profile == profile_name then
+      M.current_profile = new_name
+   end
+   M.maps[new_name] = M.maps[profile_name]
+   M.remove_profile(profile_name)
+end
+
 function M.get_profiles()
    return M.maps
 end
+
+----------------------------------------
+-- -- -- --'MAPS'-- -- -- --
+----------------------------------------
 
 function M.get_maps(profile_name)
    return M.maps[profile_name]
@@ -76,6 +88,14 @@ function M.remove_map(map_name)
          M.current_map = maps[1]
       end
    end
+end
+
+function M.rename_map(map_name, new_name)
+   if M.current_map == map_name then
+      M.current_map = new_name
+   end
+   M.maps[M.current_profile][new_name] = M.maps[M.current_profile][map_name]
+   M.remove_map(map_name)
 end
 
 function M.print_maps()

@@ -49,6 +49,16 @@ local function add_commands()
       maps.remove_map(argm[1])
       return "Map removed"
    end)
+   console.register_command("rename_map", "Rename map", 
+   function (argm)
+      maps.rename_map(argm[1], argm[2])
+      return "Map renamed"
+   end)
+   console.register_command("rename_profile", "Rename profile", 
+   function (argm)
+      maps.rename_profile(argm[1], argm[2])
+      return "Profile renamed"
+   end)
 end
 
 function init(self)
