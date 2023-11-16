@@ -1,5 +1,6 @@
 local hex = require("lib/hexagon/hexagon")
 local map = require("main/code/map")
+local maps = require("main/code/maps")
 local messanger = require("lib/messanger/messanger")
 local hash_table = require("main/hash_table")
 local console = require("defcon.console")
@@ -22,15 +23,41 @@ local console = require("defcon.console")
 -- Bugs:
 -- debug build
 
+local function add_commands()
+   console.register_command("show_map", "Show Map", 
+   function () 
+      maps.print_maps()
+      return "map showed"
+   end)
+   console.register_command("add_profile", "Add profile", 
+   function (argm)
+      maps.add_profile(argm[1])
+      return "Profile added"
+   end)
+   console.register_command("remove_profile", "Remove profile", 
+   function (argm)
+      maps.remove_profile(argm[1])
+      return "Profile removed"
+   end)
+   console.register_command("add_map", "Add map", 
+   function (argm)
+      maps.add_map(argm[1])
+      return "Map added"
+   end)
+   console.register_command("remove_map", "Remove map", 
+   function (argm)
+      maps.remove_map(argm[1])
+      return "Map removed"
+   end)
+end
+
 function init(self)
    msg.post("/camera", "acquire_input_focus")
    msg.post("/main#artist", "acquire_input_focus")
    msg.post("/menu#menu", "acquire_input_focus")
    hex.size = 76.8 * 0.5
-
-   console.register_command("new_map", "Drawing new map", function () map.draw_new_map()
-   return "Drawing new map"
-end)
+   
+   add_commands()
    sys.open_url("http://localhost:8098")
 
    messanger.add_follower(hash_table.menu, hash_table.tile_spawned)
@@ -41,8 +68,8 @@ local time = 0
 function update(self, dt)
    time = time + dt
    if time > 60 then 
-      print("autosave")
-      map.save_profile()
+      --print("autosave")
+      --map.save_profile()
       time = 0
    end
 end
