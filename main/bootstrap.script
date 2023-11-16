@@ -59,6 +59,16 @@ local function add_commands()
       maps.rename_profile(argm[1], argm[2])
       return "Profile renamed"
    end)
+   console.register_command("open_profile", "Open profile", 
+   function (argm)
+      maps.open_profile(argm[1])
+      return "Profile opened"
+   end)
+   console.register_command("open_map", "Open map", 
+   function (argm)
+      maps.open_map(argm[1])
+      return "Map opened"
+   end)
 end
 
 function init(self)
