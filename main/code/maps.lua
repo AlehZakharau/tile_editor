@@ -7,11 +7,26 @@ local M = {}
 
 M.maps = { ["defalt"] = { ["level_1"] = {} } }
 M.current_profile = "defalt"
+M.current_map = "level_1"
+
+----------------------------------------
+-- -- -- -- DEFALT -- -- -- --
+----------------------------------------
+
+local function add_defalt_level()
+   M.maps[M.current_profile] =  { ["level_1"] = {} }
+   M.current_map = "level_1"
+end
 
 local function add_defalt_profile()
    M.maps["defalt"] = { ["level_1"] = {} } 
    M.current_profile = "defalt"
+   M.current_map = "level_1"
 end
+
+----------------------------------------
+-- -- -- -- PROFILE -- -- -- --
+----------------------------------------
 
 function M.init()
    add_defalt_profile()
@@ -46,11 +61,20 @@ end
 
 function M.add_map(map_name)
    M.maps[M.current_profile][map_name] = {}
+   M.current_map = map_name
 end
 
 function M.remove_map(map_name)
    if M.maps[M.current_profile][map_name] ~= nil then
       M.maps[M.current_profile][map_name] = nil
+   end
+   if M.current_map == map_name then
+      local maps = M.get_maps(M.current_profile)
+      if #maps == 0 then 
+         add_defalt_level()
+      else
+         M.current_map = maps[1]
+      end
    end
 end
 
