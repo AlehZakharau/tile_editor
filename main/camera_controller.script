@@ -12,8 +12,8 @@ local cursor_previous_position = vmath.vector3()
 
 function window_callback(self, event, data)
    if event == window.WINDOW_EVENT_FOCUS_LOST then
-      defos.set_cursor_visible(true)
-      defos.set_cursor(self.cursors[1])
+      self.defos.set_cursor_visible(true)
+      self.defos.set_cursor(self.cursors[1])
    elseif event == window.WINDOW_EVENT_FOCUS_GAINED then
        if cursor_model.free_cursor_mode == true then
          cursor_model.turn_on_free_mode()
@@ -30,12 +30,13 @@ function window_callback(self, event, data)
 end
 
 function init(self)
+   self.defos = defos
    msg.post(".", "acquire_input_focus")
    cursor_model.turn_on_free_mode()
    --turn_off_free_mode()
    window.set_listener(window_callback)
-   defos.set_cursor_locked(false)
-   self.cursors = { defos.CURSOR_HAND, defos.CURSOR_ARROW, defos.CURSOR_CROSSHAIR, defos.CURSOR_IBEAM, }
+   self.defos.set_cursor_locked(false)
+   self.cursors = { self.defos.CURSOR_HAND, self.defos.CURSOR_ARROW, self.defos.CURSOR_CROSSHAIR, self.defos.CURSOR_IBEAM, }
 end
 
 function update(self, dt)
@@ -48,12 +49,12 @@ end
 local function grab_mode(self, action_id, action)
    if action_id == hash("key_space") and action.pressed then
       cursor_previous_position = input.get_cursor_position()
-      defos.set_cursor(self.cursors[1])
+      self.defos.set_cursor(self.cursors[1])
       cursor_model.turn_off_free_mode()
       cursor_model.hold = true
    end
    if action_id == hash("key_space") and input.get_touch_status() then
-      defos.set_cursor(self.cursors[3])
+      self.defos.set_cursor(self.cursors[3])
       camera_model.follow(main_camera, camera_archon, {lepr = 0.4, horizontal = true, vertical = true, immediate = true})
       local cursor_object = go.get_position(camera_archon) 
       local cursor_position = input.get_cursor_position()

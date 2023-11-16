@@ -104,7 +104,8 @@
         "sprite",
         "json",
         "window",
-        "physics"
+        "physics",
+        "defos"
     ],
     "Lua.diagnostics.disable": [
         "lowercase-global",
