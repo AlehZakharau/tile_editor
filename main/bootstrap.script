@@ -2,6 +2,7 @@ local hex = require("lib/hexagon/hexagon")
 local map = require("main/code/map")
 local messanger = require("lib/messanger/messanger")
 local hash_table = require("main/hash_table")
+local console = require("defcon.console")
 
 -- Main:
 -- change cursor when input field selected
@@ -26,6 +27,11 @@ function init(self)
    msg.post("/main#artist", "acquire_input_focus")
    msg.post("/menu#menu", "acquire_input_focus")
    hex.size = 76.8 * 0.5
+
+   console.register_command("new_map", "Drawing new map", function () map.draw_new_map()
+   return "Drawing new map"
+end)
+   sys.open_url("http://localhost:8098")
 
    messanger.add_follower(hash_table.menu, hash_table.tile_spawned)
 end

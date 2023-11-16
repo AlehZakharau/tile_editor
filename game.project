@@ -15,4 +15,6 @@ input_method = HiddenInputField
 title = tile_editor
 custom_resources = /res
 dependencies#0 = https://github.com/Insality/druid/archive/refs/tags/0.11.0.zip
+dependencies#1 = https://github.com/britzl/defcon/archive/master.zip
+dependencies#2 = https://github.com/britzl/defnet/archive/6.3.0.zip
 

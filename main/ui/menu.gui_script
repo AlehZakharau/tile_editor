@@ -22,10 +22,12 @@ local path_input_field
 local level_prefab
 local level_buttons = {}
 
+local level_buttons_offset = -75
+
 local function add_level_button(self, level)
    local clone = gui.clone_tree(level_prefab)
    gui.set_enabled(clone["level_prefab"], true)
-   local pos = vmath.vector3(50, -50 - 30 * level, 0.2)
+   local pos = vmath.vector3(50, level_buttons_offset - 30 * level, 0.2)
    gui.set_position(clone["level_prefab"], pos) 
    table.insert(level_buttons, {node = clone["level_prefab"], level = level})
    gui.set_text(clone["level_button_label"], "Level_" .. level)
