@@ -1,0 +1,55 @@
+local maps = require("main/code/maps")
+local hash_table = require("main/hash_table")
+local hex = require("lib/hexagon/hexagon")
+local messanger = require("lib/messanger/messanger")
+
+local factory_tile = "/factory_tile#tile"
+local tiles = {}
+
+function init(self)
+   messanger.add_follower(hash_table.map_view, hash_table.tile_added)
+   messanger.add_follower(hash_table.map_view, hash_table.tile_removed)
+   messanger.add_follower(hash_table.map_view, hash_table.map_updated)
+end
+
+local function add_tile(q, r)
+   local pos = hex.flat_hex_to_pixel(q, r)
+   local tile_hash = factory.create(factory_tile, pos)
+   tiles[tile_hash] = tile_hash
+   maps.add_tile_data(q, r, tile_hash, pos)
+end
+
+local function add_map(map) 
+   for k, v in pairs(map) do
+      for n, m in pairs(v) do
+         add_tile(k, n)
+      end
+   end
+end
+
+local function remove_all()
+   for k, v in pairs(tiles) do
+      go.delete(v)
+   end
+   tiles = {}
+end
+
+local function remove_tile(tile_hash)
+   tiles[tile_hash] = nil
+   go.delete(tile_hash)
+end
+
+function on_message(self, message_id, message)
+   if message_id == hash_table.map_updated then
+      remove_all()
+      map = maps.get_current_map()
+      add_map(map)
+   end
+   if message_id == hash_table.tile_added then 
+      print("tile_add message recieved")
+      add_tile(message.q, message.r)
+   end
+   if message_id == hash_table.tile_removed then
+      remove_tile(message.tile_hash)
+   end
+end
