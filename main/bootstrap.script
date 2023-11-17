@@ -69,6 +69,16 @@ local function add_commands()
       maps.open_map(argm[1])
       return "Map opened"
    end)
+   console.register_command("add_tile", "Add tile", 
+   function (argm)
+      maps.add_tile(tonumber(argm[1]), tonumber(argm[2]))
+      return "Tile added"
+   end)
+   console.register_command("remove_tile", "Remove tile", 
+   function (argm)
+      maps.remove_tile(tonumber(argm[1]), tonumber(argm[2]))
+      return "Tile removed"
+   end)
 end
 
 function init(self)

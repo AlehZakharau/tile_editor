@@ -8,6 +8,7 @@ local M = {}
 M.maps = { ["defalt"] = { ["level_1"] = {} } }
 M.current_profile = "defalt"
 M.current_map = "level_1"
+M.tile_count = 0
 
 ----------------------------------------
 -- -- -- -- DEFALT -- -- -- --
@@ -126,8 +127,42 @@ function M.open_map(map_name)
    messanger.push_notification(hash_table.map_updated)
 end
 
+----------------------------------------
+-- -- -- --'TILES'-- -- -- --
+----------------------------------------
+
+function M.add_tile(q, r)
+   if M.maps[M.current_profile][M.current_map][q] == nil then
+      M.maps[M.current_profile][M.current_map][q] = {} 
+   end
+   M.maps[M.current_profile][M.current_map][q][r] = {}
+   messanger.push_notification(hash_table.tile_added, {q = q, r = r})
+   M.tile_count = M.tile_count + 1
+end
+
+function M.remove_tile(q, r)
+   if M.has_tile(q, r) then
+      M.maps[M.current_profile][M.current_map][q][r] = nil
+      M.tile_count = M.tile_count - 1
+      if #M.maps[M.current_profile][M.current_map][q] == 0 then
+         M.maps[M.current_profile][M.current_map][q] = nil
+      end
+   end
+   messanger.push_notification(hash_table.tile_removed, {q = q, r = r})
+end
+
+function M.has_tile(q, r)
+   if M.maps[M.current_profile][M.current_map][q] ~= nil then
+      if M.maps[M.current_profile][M.current_map][q][r] ~= nil then 
+         return true 
+      end
+   end
+   return false
+end
+
 function M.print_maps()
    print("Current profile: " .. M.current_profile .. "::: Current map:" .. M.current_map)
+   print("Tile_count: " .. M.tile_count)
    pprint(M.maps)
 end
 
