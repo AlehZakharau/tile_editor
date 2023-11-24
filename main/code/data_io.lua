@@ -13,9 +13,15 @@ function M.load_profile()
    local test_json_file = sys.load_resource(M.local_map_path)
    if test_json_file ~= nil then 
 	   map = json.decode(test_json_file)
-      --M.current_map = map[1]
-      --M.draw_map(1)
-      -- sent map
+      for k,v in pairs(map) do 
+         maps.add_profile(k)
+         for n, m in pairs(v) do
+            maps.add_map(n)
+            for t, s in pairs(m) do
+               maps.add_tile(s[1], s[2])
+            end
+         end
+      end
    end
 end
 
@@ -34,6 +40,7 @@ local function conver_map(map)
    end
    return map_data
 end
+
 
 function M.save_maps() -- add save (profile)
    local map = maps.maps

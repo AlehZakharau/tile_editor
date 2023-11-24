@@ -7,9 +7,7 @@ local factory_tile = "/factory_tile#tile"
 local tiles = {}
 
 function init(self)
-   messanger.add_follower(hash_table.map_view, hash_table.tile_added)
-   messanger.add_follower(hash_table.map_view, hash_table.tile_removed)
-   messanger.add_follower(hash_table.map_view, hash_table.map_updated)
+   
 end
 
 local function add_tile(q, r)

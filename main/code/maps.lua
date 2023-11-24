@@ -97,7 +97,7 @@ function M.get_first_map(profile_name)
 end
 
 function M.add_map(map_name)
-   M.maps[M.current_profile][map_name] = {map_name = map_name}
+   M.maps[M.current_profile][map_name] = {}
    M.current_map = map_name
    messanger.push_notification(hash_table.map_updated)
 end
