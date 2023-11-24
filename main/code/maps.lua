@@ -152,6 +152,9 @@ function M.remove_tile(q, r)
    if M.has_tile(q, r) then
       local tile_hash = M.maps[M.current_profile][M.current_map][q][r].tile_hash
       M.maps[M.current_profile][M.current_map][q][r] = nil
+      if(table_utility.table_length(M.maps[M.current_profile][M.current_map][q]) == 0) then
+         M.maps[M.current_profile][M.current_map][q] = nil
+      end
       M.tile_count = M.tile_count - 1
       messanger.push_notification(hash_table.tile_removed, {q = q, r = r, tile_hash = tile_hash})
    end

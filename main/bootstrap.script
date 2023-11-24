@@ -6,11 +6,13 @@ local hash_table = require("main/hash_table")
 local console = require("defcon.console")
 
 -- Main:
+-- save/load
+-- add profile ui
+-- add maps ui
 -- change cursor when input field selected
 -- read input field
 -- show saved path in input field
 -- save on the machine
--- add profiles
 -- possible to rename map sets
 -- list of map sets (update list of the levels)
 -- remove map sets
