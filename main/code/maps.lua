@@ -145,19 +145,14 @@ function M.add_tile(q, r)
 end
 
 function M.add_tile_data(q, r, tile_hash, position)
-   print("Tile_hash: " .. tile_hash .. "Coord" .. q .. ":" .. r)
    M.maps[M.current_profile][M.current_map][q][r] = {tile_hash = tile_hash, position = position}
 end
 
 function M.remove_tile(q, r)
    if M.has_tile(q, r) then
       local tile_hash = M.maps[M.current_profile][M.current_map][q][r].tile_hash
-      print("Tile_hash: " .. tile_hash)
       M.maps[M.current_profile][M.current_map][q][r] = nil
       M.tile_count = M.tile_count - 1
-      if #M.maps[M.current_profile][M.current_map][q] == 0 then
-         M.maps[M.current_profile][M.current_map][q] = nil
-      end
       messanger.push_notification(hash_table.tile_removed, {q = q, r = r, tile_hash = tile_hash})
    end
 end

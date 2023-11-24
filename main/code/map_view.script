@@ -46,7 +46,6 @@ function on_message(self, message_id, message)
       add_map(map)
    end
    if message_id == hash_table.tile_added then 
-      print("tile_add message recieved")
       add_tile(message.q, message.r)
    end
    if message_id == hash_table.tile_removed then
