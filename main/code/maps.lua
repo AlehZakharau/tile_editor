@@ -145,7 +145,7 @@ function M.add_tile(q, r)
 end
 
 function M.add_tile_data(q, r, tile_hash, position)
-   M.maps[M.current_profile][M.current_map][q][r] = {tile_hash = tile_hash, position = position}
+   M.maps[M.current_profile][M.current_map][q][r] = {tile_hash = tile_hash, position = position, q = q, r = r}
 end
 
 function M.remove_tile(q, r)
