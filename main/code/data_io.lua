@@ -9,7 +9,7 @@ M.export_path = ""
 M.export = false
 
 
-function M.load_profile()
+function M.load_maps()
    local test_json_file = sys.load_resource(M.local_map_path)
    if test_json_file ~= nil then 
 	   map = json.decode(test_json_file)

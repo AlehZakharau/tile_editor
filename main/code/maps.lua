@@ -139,13 +139,14 @@ function M.add_tile(q, r)
    if M.maps[M.current_profile][M.current_map][q] == nil then
       M.maps[M.current_profile][M.current_map][q] = {} 
    end
-   M.maps[M.current_profile][M.current_map][q][r] = {}
+   M.maps[M.current_profile][M.current_map][q][r] = {q = q, r = r}
    messanger.push_notification(hash_table.tile_added, {q = q, r = r})
    M.tile_count = M.tile_count + 1
 end
 
 function M.add_tile_data(q, r, tile_hash, position)
-   M.maps[M.current_profile][M.current_map][q][r] = {tile_hash = tile_hash, position = position, q = q, r = r}
+   M.maps[M.current_profile][M.current_map][q][r].tile_hash = tile_hash
+   M.maps[M.current_profile][M.current_map][q][r].position = position
 end
 
 function M.remove_tile(q, r)
