@@ -17,6 +17,7 @@ M.tile_count = 0
 local function add_defalt_level()
    M.maps[M.current_profile] =  { ["level_1"] = { } }
    M.current_map = "level_1"
+   M.tile_count = 0
    messanger.push_notification(hash_table.map_updated)
 end
 
@@ -24,8 +25,9 @@ local function add_defalt_profile()
    M.maps["defalt"] = { ["level_1"] = {} } 
    M.current_profile = "defalt"
    M.current_map = "level_1"
-   messanger.push_notification(hash_table.map_updated)
-   messanger.push_notification(hash_table.profile_updated)
+   M.tile_count = 0
+   messanger.push_notification(hash_table.map_updated, {name = "level_1"})
+   messanger.push_notification(hash_table.profile_updated, {name = "defalt"})
 end
 
 ----------------------------------------
@@ -40,8 +42,9 @@ function M.add_profile(profile_name)
    M.maps[profile_name] = { ["level_1"] = {} }
    M.current_profile = profile_name
    M.current_map = "level_1"
-   messanger.push_notification(hash_table.profile_updated)
-   messanger.push_notification(hash_table.map_updated)
+   M.tile_count = 0
+   messanger.push_notification(hash_table.profile_updated, {name = profile_name})
+   messanger.push_notification(hash_table.map_updated, {name = "level_1"})
 end
 
 function M.remove_profile(profile_name)
@@ -64,18 +67,23 @@ function M.rename_profile(profile_name, new_name)
    end
    M.maps[new_name] = M.maps[profile_name]
    M.remove_profile(profile_name)
-   messanger.push_notification(hash_table.profile_updated)
+   messanger.push_notification(hash_table.profile_updated, {name = profile_name})
 end
 
 function M.open_profile(profile_name)
    M.current_profile = profile_name
-   messanger.push_notification(hash_table.profile_updated)
+   messanger.push_notification(hash_table.profile_updated, {name = profile_name})
    map = M.get_first_map(profile_name)
    M.open_map(map)
 end
 
 function M.get_profiles()
    return M.maps
+end
+
+function M.clear_all()
+   M.maps = {}
+   add_defalt_profile()
 end
 
 ----------------------------------------
@@ -99,7 +107,8 @@ end
 function M.add_map(map_name)
    M.maps[M.current_profile][map_name] = {}
    M.current_map = map_name
-   messanger.push_notification(hash_table.map_updated)
+   M.tile_count = 0
+   messanger.push_notification(hash_table.map_updated, {name = map_name})
 end
 
 function M.remove_map(map_name)
@@ -112,7 +121,7 @@ function M.remove_map(map_name)
          add_defalt_level()
       else
          M.current_map = maps[1]
-         messanger.push_notification(hash_table.map_updated)
+         messanger.push_notification(hash_table.map_updated, {name = map_name})
       end
    end
 end
@@ -123,30 +132,36 @@ function M.rename_map(map_name, new_name)
    end
    M.maps[M.current_profile][new_name] = M.maps[M.current_profile][map_name]
    M.remove_map(map_name)
-   messanger.push_notification(hash_table.map_updated)
+   messanger.push_notification(hash_table.map_updated, {name = map_name})
 end
 
 function M.open_map(map_name)
    M.current_map = map_name
-   messanger.push_notification(hash_table.map_updated)
+   M.tile_count = 0
+   messanger.push_notification(hash_table.map_updated, {name = map_name})
 end
 
 ----------------------------------------
 -- -- -- --'TILES'-- -- -- --
 ----------------------------------------
 
-function M.add_tile(q, r)
+function M.add_tile(q, r, ignore)
    if M.maps[M.current_profile][M.current_map][q] == nil then
       M.maps[M.current_profile][M.current_map][q] = {} 
    end
    M.maps[M.current_profile][M.current_map][q][r] = {q = q, r = r}
-   messanger.push_notification(hash_table.tile_added, {q = q, r = r})
    M.tile_count = M.tile_count + 1
+   if ignore then print("add with notification") 
+   else
+      messanger.push_notification(hash_table.tile_added, {q = q, r = r})
+   end
 end
 
 function M.add_tile_data(q, r, tile_hash, position)
-   M.maps[M.current_profile][M.current_map][q][r].tile_hash = tile_hash
-   M.maps[M.current_profile][M.current_map][q][r].position = position
+   if M.has_tile(q, r) then
+      M.maps[M.current_profile][M.current_map][q][r].tile_hash = tile_hash
+      M.maps[M.current_profile][M.current_map][q][r].position = position
+   end
 end
 
 function M.remove_tile(q, r)

@@ -11,14 +11,15 @@ M.export = false
 
 function M.load_maps()
    local test_json_file = sys.load_resource(M.local_map_path)
+   maps.clear_all()
    if test_json_file ~= nil then 
-	   map = json.decode(test_json_file)
+      map = json.decode(test_json_file)
       for k,v in pairs(map) do 
          maps.add_profile(k)
          for n, m in pairs(v) do
             maps.add_map(n)
             for t, s in pairs(m) do
-               maps.add_tile(s[1], s[2])
+               maps.add_tile(s[1], s[2], true)
             end
          end
       end
