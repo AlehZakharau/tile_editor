@@ -9,6 +9,7 @@ local hex = require("lib/hexagon/hexagon")
 local buttons = {}
 local map_buttons = {}
 local profile_buttons = {}
+local profile_list_status = false
 
 function init(self)
    self.druid = druid.new(self)
@@ -33,6 +34,9 @@ function init(self)
 
    self.left_panel_size = gui.get_size(buttons.left_panel_node)
    self.right_panel_size = gui.get_size(buttons.right_panel_node)
+   self.left_wide_panel_size = 2 * self.left_panel_size.x
+   gui.set_enabled(buttons.profile_root, false)
+   gui.set_enabled(buttons.new_profile_button, false)
    self.width = gui.get_width()
 end
 
@@ -129,7 +133,14 @@ end
 function on_input(self, action_id, action)
    if action_id == hash("touch") and action.pressed then
       if gui.pick_node(buttons.profile_text, action.x, action.y) then
-         -- open profile list
+         profile_list_status = not profile_list_status
+         if profile_list_status then
+            gui.set_enabled(buttons.profile_root, true)
+            gui.set_enabled(buttons.new_profile_button, true)
+         else
+            gui.set_enabled(buttons.profile_root, false)
+            gui.set_enabled(buttons.new_profile_button, false)
+         end
       end
       if gui.pick_node(buttons.new_map_button, action.x, action.y) then
          local map_index = map.get_maps_amount()
@@ -146,14 +157,17 @@ function on_input(self, action_id, action)
             map.open_map(map_buttons[i].map)
          end
       end
-      for i = 1, #profile_buttons, 1 do
-         if gui.pick_node(profile_buttons[i].button, action.x, action.y) then
-            map.open_profile(profile_buttons[i].profile)
+      if profile_list_status then
+         for i = 1, #profile_buttons, 1 do
+            if gui.pick_node(profile_buttons[i].button, action.x, action.y) then
+               map.open_profile(profile_buttons[i].profile)
+            end
          end
       end
    end
    local cursor_position = input.get_cursor_position()
    if cursor_position.x < self.left_panel_size.x or 
+   (profile_list_status and cursor_position.x < self.left_wide_panel) or
    cursor_position.x > self.width - self.right_panel_size.x then
       cursor_model.turn_off_free_mode()
    elseif cursor_model.hold == false then
