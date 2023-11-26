@@ -5,6 +5,7 @@ local hash_table = require("main/hash_table")
 local input = require("lib/mobile_input/input")
 local cursor_model = require("main/code/cursor")
 local hex = require("lib/hexagon/hexagon")
+local data_io = require("main/code/data_io")
 
 local buttons = {}
 local map_buttons = {}
@@ -31,10 +32,11 @@ function init(self)
    buttons.profile_grid = self.druid:new_static_grid("profile_scroll_content", buttons.prefab, 1)
    buttons.new_profile_button = gui.get_node("new_profile")
    buttons.new_map_button = gui.get_node("new_map")
+   buttons.save_button = gui.get_node("save_button")
 
    self.left_panel_size = gui.get_size(buttons.left_panel_node)
    self.right_panel_size = gui.get_size(buttons.right_panel_node)
-   self.left_wide_panel_size = 2 * self.left_panel_size.x
+   self.left_wide_panel = 2 * self.left_panel_size.x
    gui.set_enabled(buttons.profile_root, false)
    gui.set_enabled(buttons.new_profile_button, false)
    self.width = gui.get_width()
@@ -91,6 +93,16 @@ local function update_profile_buttons(self)
    end
 end
 
+local function get_new_profile_name()
+   local new_profile_name = "d"
+   local profile_index = map.get_profiles_amount()
+   repeat
+         profile_index = profile_index + 1
+         new_profile_name = "pro_" .. profile_index
+   until map.has_profile(new_profile_name) == false
+   return new_profile_name
+end
+
 ----------------------------------------
 -- -- -- --'MAPS SCROLL'-- -- -- --
 ----------------------------------------
@@ -130,6 +142,17 @@ local function update_maps_buttons(self)
    end
 end
 
+local function get_new_map_name()
+   local new_map_name = "d"
+   local map_index = map.get_maps_amount()
+   repeat
+      map_index = map_index + 1
+      new_map_name = "map_" .. map_index
+   until map.has_profile(new_map_name) == false
+   return new_map_name
+end
+
+
 function on_input(self, action_id, action)
    if action_id == hash("touch") and action.pressed then
       if gui.pick_node(buttons.profile_text, action.x, action.y) then
@@ -143,14 +166,15 @@ function on_input(self, action_id, action)
          end
       end
       if gui.pick_node(buttons.new_map_button, action.x, action.y) then
-         local map_index = map.get_maps_amount()
-         map_index = map_index + 1
-         map.add_map("map_" .. map_index)
+         local new_name = get_new_map_name()
+         map.add_map(new_name)
       end
       if gui.pick_node(buttons.new_profile_button, action.x, action.y) then
-         local profile_index = map.get_profiles_amount()
-         profile_index = profile_index + 1
-         map.add_profile("pro_" .. profile_index)
+         local new_name = get_new_profile_name()
+         map.add_profile(new_name)
+      end
+      if gui.pick_node(buttons.save_button, action.x, action.y) then 
+         data_io.save_maps()
       end
       for i = 1, #map_buttons, 1 do
          if gui.pick_node(map_buttons[i].button, action.x, action.y) then
@@ -161,6 +185,20 @@ function on_input(self, action_id, action)
          for i = 1, #profile_buttons, 1 do
             if gui.pick_node(profile_buttons[i].button, action.x, action.y) then
                map.open_profile(profile_buttons[i].profile)
+            end
+         end
+      end
+   end
+   if action_id == hash("mouse_button_2") and action.pressed then
+      for i = 1, #map_buttons, 1 do
+         if gui.pick_node(map_buttons[i].button, action.x, action.y) then
+            map.remove_map(map_buttons[i].map)
+         end
+      end
+      if profile_list_status then
+         for i = 1, #profile_buttons, 1 do
+            if gui.pick_node(profile_buttons[i].button, action.x, action.y) then
+               map.remove_profile(profile_buttons[i].profile)
             end
          end
       end

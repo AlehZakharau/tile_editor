@@ -7,8 +7,6 @@ local hash_table = require("main/hash_table")
 local console = require("defcon.console")
 
 -- Main:
--- add profile ui
--- add maps ui
 -- change cursor when input field selected
 -- read input field
 -- show saved path in input field
@@ -23,7 +21,7 @@ local console = require("defcon.console")
 -- add header panel
 
 -- Bugs:
--- remove tile after load
+-- fix defalt profile creation
 
 local function add_commands()
    console.register_command("show_map", "Show Map", 

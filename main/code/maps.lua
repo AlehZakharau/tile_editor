@@ -18,7 +18,7 @@ local function add_defalt_level()
    M.maps[M.current_profile] =  { ["level_1"] = { } }
    M.current_map = "level_1"
    M.tile_count = 0
-   messanger.push_notification(hash_table.map_updated)
+   messanger.push_notification(hash_table.map_updated, {name = "level_1"})
 end
 
 local function add_defalt_profile()
@@ -59,6 +59,7 @@ function M.remove_profile(profile_name)
          M.open_profile(profiles[1])
       end
    end
+   messanger.push_notification(hash_table.profile_updated, {name = M.current_profile})
 end
 
 function M.rename_profile(profile_name, new_name)
@@ -87,6 +88,10 @@ function M.get_profiles_amount()
       profile_amount = profile_amount + 1
    end
    return profile_amount
+end
+
+function M.has_profile(new_profile_name)
+   if M.maps[new_profile_name] ~= nil then return true else return false end
 end
 
 function M.clear_all()
@@ -137,9 +142,9 @@ function M.remove_map(map_name)
          add_defalt_level()
       else
          M.current_map = maps[1]
-         messanger.push_notification(hash_table.map_updated, {name = map_name})
       end
    end
+   messanger.push_notification(hash_table.map_updated, {name = M.current_map})
 end
 
 function M.rename_map(map_name, new_name)
