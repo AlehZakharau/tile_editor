@@ -7,7 +7,6 @@ local hash_table = require("main/hash_table")
 local console = require("defcon.console")
 
 -- Main:
--- save/load
 -- add profile ui
 -- add maps ui
 -- change cursor when input field selected
@@ -24,7 +23,7 @@ local console = require("defcon.console")
 -- add header panel
 
 -- Bugs:
--- debug build
+-- remove tile after load
 
 local function add_commands()
    console.register_command("show_map", "Show Map", 
@@ -88,7 +87,10 @@ local function subsribe()
    messanger.add_follower(hash_table.map_view, hash_table.tile_added)
    messanger.add_follower(hash_table.map_view, hash_table.tile_removed)
    messanger.add_follower(hash_table.map_view, hash_table.map_updated)
-   messanger.add_follower(hash_table.menu, hash_table.tile_spawned)
+   messanger.add_follower(hash_table.menu, hash_table.tile_added)
+   messanger.add_follower(hash_table.menu, hash_table.tile_removed)
+   messanger.add_follower(hash_table.menu, hash_table.profile_updated)
+   messanger.add_follower(hash_table.menu, hash_table.map_updated)
 end
 
 function init(self)
@@ -103,7 +105,7 @@ function init(self)
    sys.open_url("http://localhost:8098")
    
    subsribe()
-   data_io.load_profile()
+   data_io.load_maps()
 end
 
 local time = 0
