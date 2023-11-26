@@ -28,7 +28,8 @@ function init(self)
    buttons.profile_scroll = self.druid:new_scroll(buttons.profile_root, "profile_scroll_content")
    buttons.profile_scroll:set_horizontal_scroll(false)
    buttons.profile_grid = self.druid:new_static_grid("profile_scroll_content", buttons.prefab, 1)
-
+   buttons.new_profile_button = gui.get_node("new_profile")
+   buttons.new_map_button = gui.get_node("new_map")
 
    self.left_panel_size = gui.get_size(buttons.left_panel_node)
    self.right_panel_size = gui.get_size(buttons.right_panel_node)
@@ -47,21 +48,9 @@ function final(self)
    self.druid:final()
 end
 
-function on_input(self, action_id, action)
-   if action_id == hash("touch") and action.pressed then
-      if gui.pick_node(buttons.profile_text, action.x, action.y) then
-         -- open profile list
-      end
-   end
-   local cursor_position = input.get_cursor_position()
-   if cursor_position.x < self.left_panel_size.x or 
-   cursor_position.x > self.width - self.right_panel_size.x then
-      cursor_model.turn_off_free_mode()
-   elseif cursor_model.hold == false then
-      cursor_model.turn_on_free_mode()
-   end
-   return self.druid:on_input(action_id, action)
-end
+----------------------------------------
+-- -- -- --'PROFILE BUTTONS'-- -- -- --
+----------------------------------------
 
 local function dissable_all_profile_buttons()
    for i = 1, #profile_buttons, 1 do
@@ -70,22 +59,15 @@ local function dissable_all_profile_buttons()
 end
 
 local function create_profile_buttons(self, profiles)
-   local profile_amount = 0
-   for k, v in pairs(profiles) do
-      profile_amount = profile_amount + 1
-   end
+   local profile_amount = map.get_profiles_amount()
    if profile_amount > #profile_buttons then
       for i = 1, profile_amount - #profile_buttons, 1 do
          local clone_prefab = gui.clone_tree(buttons.prefab)
          buttons.profile_grid:add(clone_prefab["button_prefab"])
-         local new_button = self.druid:new_button(clone_prefab["button_prefab"], 
-         function()
-            map.open_profile(profile_buttons[i].profile) 
-         end)
          local button_data = {
             button = clone_prefab["button_prefab"],
             label = clone_prefab["button_label"],
-            druid_button = new_button, profile = "d"
+            profile = "d"
          }
          table.insert(profile_buttons, button_data)
       end
@@ -116,22 +98,15 @@ local function dissable_all_maps_buttons()
 end
 
 local function create_map_buttons(self, maps)
-   local maps_amount = 0
-   for k, v in pairs(maps) do
-      maps_amount = maps_amount + 1
-   end
+   local maps_amount = map.get_maps_amount()
    if maps_amount > #map_buttons then
       for i = 1, maps_amount - #map_buttons, 1 do
          local clone_prefab = gui.clone_tree(buttons.prefab)
          buttons.map_grid:add(clone_prefab["button_prefab"])
-         local new_button = self.druid:new_button(clone_prefab["button_prefab"], 
-         function()
-            map.open_map(map_buttons[i].map) 
-         end)
          local button_data = {
             button = clone_prefab["button_prefab"],
             label = clone_prefab["button_label"],
-            druid_button = new_button, map = "d"
+            map = "d"
          }
          table.insert(map_buttons, button_data)
       end
@@ -149,6 +124,42 @@ local function update_maps_buttons(self)
       map_buttons[index].map = k
       index = index + 1
    end
+end
+
+function on_input(self, action_id, action)
+   if action_id == hash("touch") and action.pressed then
+      if gui.pick_node(buttons.profile_text, action.x, action.y) then
+         -- open profile list
+      end
+      if gui.pick_node(buttons.new_map_button, action.x, action.y) then
+         local map_index = map.get_maps_amount()
+         map_index = map_index + 1
+         map.add_map("map_" .. map_index)
+      end
+      if gui.pick_node(buttons.new_profile_button, action.x, action.y) then
+         local profile_index = map.get_profiles_amount()
+         profile_index = profile_index + 1
+         map.add_profile("pro_" .. profile_index)
+      end
+      for i = 1, #map_buttons, 1 do
+         if gui.pick_node(map_buttons[i].button, action.x, action.y) then
+            map.open_map(map_buttons[i].map)
+         end
+      end
+      for i = 1, #profile_buttons, 1 do
+         if gui.pick_node(profile_buttons[i].button, action.x, action.y) then
+            map.open_profile(profile_buttons[i].profile)
+         end
+      end
+   end
+   local cursor_position = input.get_cursor_position()
+   if cursor_position.x < self.left_panel_size.x or 
+   cursor_position.x > self.width - self.right_panel_size.x then
+      cursor_model.turn_off_free_mode()
+   elseif cursor_model.hold == false then
+      cursor_model.turn_on_free_mode()
+   end
+   return self.druid:on_input(action_id, action)
 end
 
 function on_message(self, message_id, message, sender)

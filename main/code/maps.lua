@@ -81,6 +81,14 @@ function M.get_profiles()
    return M.maps
 end
 
+function M.get_profiles_amount()
+   local profile_amount = 0
+   for k, v in pairs(M.maps) do
+      profile_amount = profile_amount + 1
+   end
+   return profile_amount
+end
+
 function M.clear_all()
    M.maps = {}
    add_defalt_profile()
@@ -96,6 +104,14 @@ end
 
 function M.get_current_map()
    return M.maps[M.current_profile][M.current_map]
+end
+
+function M.get_maps_amount()
+   local maps_amount = 0
+   for k, v in pairs(M.maps[M.current_profile]) do
+      maps_amount = maps_amount + 1
+   end
+   return maps_amount
 end
 
 function M.get_first_map(profile_name)
