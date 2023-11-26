@@ -81,6 +81,16 @@ local function add_commands()
       maps.remove_tile(tonumber(argm[1]), tonumber(argm[2]))
       return "Tile removed"
    end)
+   console.register_command("save", "Save", 
+   function (argm)
+      data_io.save_maps()
+      return "Saved"
+   end)
+   console.register_command("load", "Load", 
+   function (argm)
+      data_io.load_maps()
+      return "Loaded"
+   end)
 end
 
 local function subsribe()
