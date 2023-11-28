@@ -12,8 +12,6 @@ local console = require("defcon.console")
 -- show saved path in input field
 -- save on the machine
 -- possible to rename map sets
--- list of map sets (update list of the levels)
--- remove map sets
 
 --Aditional:
 -- prepare drag cursor in tiff format 
@@ -21,7 +19,6 @@ local console = require("defcon.console")
 -- add header panel
 
 -- Bugs:
--- fix defalt profile creation
 
 local function add_commands()
    console.register_command("show_map", "Show Map", 

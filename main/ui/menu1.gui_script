@@ -14,6 +14,7 @@ local profile_list_status = false
 
 function init(self)
    self.druid = druid.new(self)
+   druid.register("input", druid_input)
    buttons.profile_text = gui.get_node("profile_text")
    buttons.map_text = gui.get_node("map_label")
    buttons.prefab = gui.get_node("button_prefab")
@@ -33,6 +34,7 @@ function init(self)
    buttons.new_profile_button = gui.get_node("new_profile")
    buttons.new_map_button = gui.get_node("new_map")
    buttons.save_button = gui.get_node("save_button")
+
 
    self.left_panel_size = gui.get_size(buttons.left_panel_node)
    self.right_panel_size = gui.get_size(buttons.right_panel_node)

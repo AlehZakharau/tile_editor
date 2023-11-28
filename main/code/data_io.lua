@@ -5,7 +5,7 @@ local M = {}
 
 M.save_path = "res/map.json"
 M.local_map_path = "/res/map.json"
-M.export_path = ""
+M.export_path = "Enter a new path"
 M.export = false
 
 

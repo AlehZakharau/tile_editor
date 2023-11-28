@@ -52,11 +52,11 @@ function M.remove_profile(profile_name)
       M.maps[profile_name] = nil
    end
    if M.current_profile == profile_name then
-      local profiles = M.get_profiles()
-      if #profiles == 0 then
+      local profiles_amount = M.get_profiles_amount()
+      if profiles_amount == 0 then
          add_defalt_profile()
       else
-         M.open_profile(profiles[1])
+         M.open_profile(M.get_any_profile())
       end
    end
    messanger.push_notification(hash_table.profile_updated, {name = M.current_profile})
@@ -80,6 +80,12 @@ end
 
 function M.get_profiles()
    return M.maps
+end
+
+function M.get_any_profile()
+   for k, v in pairs(M.maps) do
+      return k
+   end
 end
 
 function M.get_profiles_amount()
