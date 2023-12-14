@@ -5,9 +5,9 @@ local hash_table = require("main/hash_table")
 
 local M = {}
 
-M.maps = { ["defalt"] = { ["level_1"] = {} } }
+M.maps = { ["defalt"] = { ["map_1"] = {} } }
 M.current_profile = "defalt"
-M.current_map = "level_1"
+M.current_map = "map_1"
 M.tile_count = 0
 
 ----------------------------------------
@@ -15,18 +15,18 @@ M.tile_count = 0
 ----------------------------------------
 
 local function add_defalt_level()
-   M.maps[M.current_profile] =  { ["level_1"] = { } }
-   M.current_map = "level_1"
+   M.maps[M.current_profile] =  { ["map_1"] = { } }
+   M.current_map = "map_1"
    M.tile_count = 0
-   messanger.push_notification(hash_table.map_updated, {name = "level_1"})
+   messanger.push_notification(hash_table.map_updated, {name = "map_1"})
 end
 
 local function add_defalt_profile()
-   M.maps["defalt"] = { ["level_1"] = {} } 
+   M.maps["defalt"] = { ["map_1"] = {} } 
    M.current_profile = "defalt"
-   M.current_map = "level_1"
+   M.current_map = "map_1"
    M.tile_count = 0
-   messanger.push_notification(hash_table.map_updated, {name = "level_1"})
+   messanger.push_notification(hash_table.map_updated, {name = "map_1"})
    messanger.push_notification(hash_table.profile_updated, {name = "defalt"})
 end
 
@@ -39,12 +39,12 @@ function M.init()
 end
 
 function M.add_profile(profile_name)
-   M.maps[profile_name] = { ["level_1"] = {} }
+   M.maps[profile_name] = { ["map_1"] = {} }
    M.current_profile = profile_name
-   M.current_map = "level_1"
+   M.current_map = "map_1"
    M.tile_count = 0
    messanger.push_notification(hash_table.profile_updated, {name = profile_name})
-   messanger.push_notification(hash_table.map_updated, {name = "level_1"})
+   messanger.push_notification(hash_table.map_updated, {name = "map_1"})
 end
 
 function M.remove_profile(profile_name)
@@ -177,7 +177,6 @@ function M.add_tile(q, r, ignore)
       M.maps[M.current_profile][M.current_map][q] = {} 
    end
    M.maps[M.current_profile][M.current_map][q][r] = {q = q, r = r}
-   M.tile_count = M.tile_count + 1
    if ignore then print("add with notification") 
    else
       messanger.push_notification(hash_table.tile_added, {q = q, r = r})
@@ -186,6 +185,7 @@ end
 
 function M.add_tile_data(q, r, tile_hash, position)
    if M.has_tile(q, r) then
+      M.tile_count = M.tile_count + 1
       M.maps[M.current_profile][M.current_map][q][r].tile_hash = tile_hash
       M.maps[M.current_profile][M.current_map][q][r].position = position
    end

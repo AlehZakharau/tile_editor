@@ -35,6 +35,7 @@ local function remove_all()
       go.delete(v)
    end
    tiles = {}
+   maps.tile_count = 0
 end
 
 local function remove_tile(tile_hash)

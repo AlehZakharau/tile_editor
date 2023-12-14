@@ -1,5 +1,4 @@
 local hex = require("lib/hexagon/hexagon")
-local map = require("main/code/map")
 local maps = require("main/code/maps")
 local data_io = require("main/code/data_io")
 local messanger = require("lib/messanger/messanger")
@@ -7,6 +6,7 @@ local hash_table = require("main/hash_table")
 local console = require("defcon.console")
 
 -- Main:
+-- highlight coord grid
 -- change cursor when input field selected
 -- read input field
 -- show saved path in input field
