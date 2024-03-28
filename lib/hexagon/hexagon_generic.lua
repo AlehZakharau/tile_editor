@@ -2,7 +2,6 @@ local mathf = require("lib.mathf.mathf")
 
 local M = {}
 
-M.config = {size = 1, orintation = false}
 --- size number: size of hexagons
 M.size = 1
 --- boolian orintation 

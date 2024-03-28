@@ -1,4 +1,4 @@
-generic = require("lib/hexagon/hexagon_generic.lua")
+generic = require("lib.hexagon.hexagon_generic")
 
 local M = {}
 
