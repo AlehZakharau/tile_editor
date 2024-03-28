@@ -1,49 +1,57 @@
 local mathf = require("lib.mathf.mathf")
+local top_pointy = require("lib.hexagon.hexagon_morth_pointy_top")
+local top_flat = require("lib.hexagon.hexagon_morth_flat_top")
+local generic = require("lib.hexagon.hexagon_generic")
 
 local M = {}
 
-M.size = 51.2 -- size is half of hexagon's width
+-- coordinate q,r,s is equvalent of the x,y,z.
 
-local h_step = 3 / 2 * M.size
-local v_step = math.sqrt(3) * h_step
+local morph = top_pointy
 
-local vertical = v_step * 0.5
-local horizontal = h_step * 0.25
 
-local function cube_round(pos_q, pos_r)
-	local q = mathf.round(pos_q)
-	local r = mathf.round(pos_r)
-	local s = M.find_s_coord(q, r)
-
-	local q_diff = math.abs(q - pos_q)
-	local r_diff = math.abs(r - pos_r)
-	local s_diff = math.abs(s -(-pos_q - pos_r))
-
-	if q_diff > r_diff and q_diff > s_diff then
-		q = -r-s
-	elseif r_diff > s_diff then
-		r = -q-s
-	else
-		s = -q-r
-	end
-
-	return q, r, s
+----------------------------------------
+-- -- -- --'HEXAGON GRID PARAMETERS'-- -- -- --
+----------------------------------------
+local function switch_orintation(value)
+   if generic.orintation then
+      morph = top_pointy
+   else
+      morph = top_flat
+   end
 end
 
-function M.find_s_coord(q, r)
-  return-q-r
+---@function init hexagon library
+---@param size number size of the hexagon
+---@param value bool orintation of the hexagon
+--- true = pointy top hexagons
+--- false = flat top hexagons
+function M.init(size, value)
+   generic.size = size
+   generic.orintation = value
+   switch_orintation(value)
 end
+
+function M.change_size(size)
+   generic.size = size
+end
+
+function M.change_orintation(value)
+   generic.orintation = value
+   switch_orintation(value)
+end
+
+----------------------------------------
+-- -- -- --'MORPH'-- -- -- --
+----------------------------------------
+
 
 function M.flat_hex_to_pixel(q, r)
-	local x = M.size * (3/2 * q)
-	local y = M.size * (math.sqrt(3)/2 * q  +  math.sqrt(3) * r)
-	return vmath.vector3(x, y, 0)
+   return morph.flat_hex_to_pixel(q, r)
 end
 
 function M.pixel_to_flat_hex(point)
-	local q = ( 2./3 * point.x) / M.size
-	local r = (-1./3 * point.x  +  math.sqrt(3)/3 * point.y) / M.size
-	return cube_round(q, r)
+   return morph.pixel_to_flat_hex(point)
 end
 
 function M.get_coord_in_radius(q, r, radius)
@@ -59,8 +67,8 @@ function M.get_coord_in_radius(q, r, radius)
 end
 
 local function coord_subtract(start_q, start_r, end_q, end_r)
-  local start_s = M.find_s_coord(start_q, start_r)
-  local end_s = M.find_s_coord(end_q, end_r)
+  local start_s = generic.find_s_coord(start_q, start_r)
+  local end_s = generic.find_s_coord(end_q, end_r)
   return start_q - end_q, start_r - end_r, start_s - end_s
 end
 

@@ -103,7 +103,7 @@ function init(self)
    msg.post("/main#artist", "acquire_input_focus")
    msg.post("/menu#menu", "acquire_input_focus")
 
-   hex.size = 76.8 * 0.5
+   hex.init(76.8 * 0.5, false)
    maps.init()
    
    add_commands()
