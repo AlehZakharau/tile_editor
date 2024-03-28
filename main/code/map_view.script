@@ -1,18 +1,13 @@
 local maps = require("main/code/maps")
 local hash_table = require("main/hash_table")
 local hex = require("lib/hexagon/hexagon")
-local messanger = require("lib/messanger/messanger")
-local console = require("defcon.console")
+local view_tests = require("main/tests/view_tests")
 
 local factory_tile = "/factory_tile#tile"
 local tiles = {}
 
 function init(self)
-   console.register_command("show_tiles", "Show Tiles", 
-   function () 
-      pprint(tiles)
-      return "tiles showed"
-   end)
+   view_tests.add_view_tests(tiles)
 end
 
 local function add_tile(q, r)
