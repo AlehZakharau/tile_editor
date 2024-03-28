@@ -1,0 +1,3 @@
+prototype: "/prefabs/tile_pointy.go"
+load_dynamically: false
+dynamic_prototype: false

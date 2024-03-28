@@ -3,7 +3,8 @@ local hash_table = require("main/hash_table")
 local hex = require("lib/hexagon/hexagon")
 local view_tests = require("main/tests/view_tests")
 
-local factory_tile = "/factory_tile#tile"
+local factory_tile_flat = "/factory_tile#tile_flat"
+local factory_tile_pointy = "/factory_tile#tile_pointy"
 local tiles = {}
 
 function init(self)
@@ -12,7 +13,7 @@ end
 
 local function add_tile(q, r)
    local pos = hex.flat_hex_to_pixel(q, r)
-   local tile_hash = factory.create(factory_tile, pos)
+   local tile_hash = factory.create(factory_tile_flat, pos)
    tiles[tile_hash] = tile_hash
    maps.add_tile_data(q, r, tile_hash, pos)
 end
