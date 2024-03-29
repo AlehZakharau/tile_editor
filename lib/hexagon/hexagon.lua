@@ -9,6 +9,22 @@ local M = {}
 
 local morph = top_pointy
 
+local size_callbacks = {}
+local orintation_callbacks = {}
+
+
+local function on_size_update()
+	for i, v in ipairs(size_callbacks) do
+		v()
+	end
+end
+
+local function on_orintation_update()
+	for i, v in ipairs(orintation_callbacks) do
+		v()
+	end
+end
+
 ----------------------------------------
 -- -- -- --'HEXAGON GRID PARAMETERS'-- -- -- --
 ----------------------------------------
@@ -38,6 +54,14 @@ end
 function M.change_orintation(value)
    generic.orintation = value
    switch_orintation(value)
+end
+
+function M.subscribe_to_size_update(callback)
+	size_callbacks[#size_callbacks + 1] = callback
+end
+
+function M.subscribe_to_orintation_update(callback)
+	orintation_callbacks[#orintation_callbacks + 1] = callback
 end
 
 ----------------------------------------
