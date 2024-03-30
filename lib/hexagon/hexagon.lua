@@ -45,15 +45,19 @@ function M.init(size, value)
    generic.size = size
    generic.orintation = value
    switch_orintation(value)
+   on_size_update()
+   on_orintation_update()
 end
 
 function M.change_size(size)
    generic.size = size
+   on_size_update()
 end
 
 function M.change_orintation(value)
    generic.orintation = value
    switch_orintation(value)
+   on_orintation_update()
 end
 
 function M.subscribe_to_size_update(callback)

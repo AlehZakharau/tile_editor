@@ -1,5 +1,5 @@
 local console = require("defcon.console")
-local hex = require("lib.hexagon.hexagon")
+local hex = require("lib/hexagon/hexagon")
 
 local M = {}
 
@@ -12,7 +12,7 @@ function M.add_tile_commands()
 	console.register_command("update_tile_orintation", "w",
 	function (argm)
 		hex.change_orintation(argm[1])
-		return
+		return ""
 	end)
 end
 

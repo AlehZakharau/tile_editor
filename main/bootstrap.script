@@ -3,7 +3,8 @@ local maps = require("main/code/maps")
 local data_io = require("main/code/data_io")
 local messanger = require("lib/messanger/messanger")
 local hash_table = require("main/hash_table")
-local tests= require("main/tests/tests")
+local tests = require("main/tests/tests")
+local tile_tests = require("main/tests/tile_tests")
 
 -- Main:
 -- highlight coord grid
@@ -39,6 +40,7 @@ function init(self)
    maps.init()
    
    tests.add_main_commands()
+   tile_tests.add_tile_commands()
    sys.open_url("http://localhost:8098")
    
    subsribe()
