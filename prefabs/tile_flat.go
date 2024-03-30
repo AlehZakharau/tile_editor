@@ -1,8 +1,7 @@
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"\"\n"
-  "default_animation: \"tile\"\n"
+  data: "default_animation: \"tile\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   "size {\n"
@@ -12,6 +11,10 @@ embedded_components {
   "  w: 0.0\n"
   "}\n"
   "size_mode: SIZE_MODE_MANUAL\n"
+  "textures {\n"
+  "  sampler: \"texture_sampler\"\n"
+  "  texture: \"/assets/ui.atlas\"\n"
+  "}\n"
   ""
   position {
     x: 0.0
@@ -21,7 +24,7 @@ embedded_components {
   rotation {
     x: 0.0
     y: 0.0
-    z: 0.70710677
-    w: 0.70710677
+    z: 0.0
+    w: 1.0
   }
 }

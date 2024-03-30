@@ -1,6 +1,6 @@
 generic = require("lib.hexagon.hexagon_generic")
 
-M.size = 10
+local M = {}
 
 function M.flat_hex_to_pixel(q, r)
 	local x = generic.size * (math.sqrt(3)/2 * q  +  math.sqrt(3) * r)
