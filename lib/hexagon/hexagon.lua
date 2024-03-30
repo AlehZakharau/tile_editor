@@ -15,7 +15,7 @@ local orintation_callbacks = {}
 
 local function on_size_update()
 	for i, v in ipairs(size_callbacks) do
-		v(generic.size)
+		v(1/(generic.size/generic.start_size))
 	end
 end
 
@@ -42,7 +42,8 @@ end
 --- true = pointy top hexagons
 --- false = flat top hexagons
 function M.init(size, value)
-   generic.size = size
+	generic.size = size
+	generic.start_size = size
    generic.orintation = value
    switch_orintation(value)
    on_size_update()

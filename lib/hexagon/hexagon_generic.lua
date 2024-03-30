@@ -4,6 +4,7 @@ local M = {}
 
 --- size number: size of hexagons
 M.size = 1
+M.start_size = 1
 --- boolian orintation 
 --- true = pointy top hexagons
 --- false = flat top hexagons
