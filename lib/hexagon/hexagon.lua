@@ -15,13 +15,13 @@ local orintation_callbacks = {}
 
 local function on_size_update()
 	for i, v in ipairs(size_callbacks) do
-		v()
+		v(generic.size)
 	end
 end
 
 local function on_orintation_update()
 	for i, v in ipairs(orintation_callbacks) do
-		v()
+		v(generic.orintation)
 	end
 end
 
