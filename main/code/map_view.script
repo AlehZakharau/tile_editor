@@ -52,3 +52,8 @@ function on_message(self, message_id, message)
       remove_tile(message.tile_hash)
    end
 end
+
+function on_reload(self)
+   remove_all()
+   tiles = {}
+end
