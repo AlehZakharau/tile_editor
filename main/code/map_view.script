@@ -5,36 +5,18 @@ local view_tests = require("main/tests/view_tests")
 
 local factory_tile_flat = "/factory_tile#tile_flat"
 local factory_tile_pointy = "/factory_tile#tile_pointy"
-local active_factory = nil
+local active_factory = factory_tile_flat
 local tiles = {}
 
-local function on_size_update(scale)
-    -- update size
-end
-
-local function on_orintation_update(value)
-    remove_all()
-    if value then 
-        active_factory = factory_tile_pointy
-    else
-        active_factory = factory_tile_flat
-    end
-    map = maps.get_current_map()
-    add_map(map)
-end
-
-function init(self)
-    view_tests.add_view_tests(tiles)
-    active_factory = factory_tile_flat
-    subscribe_to_size_update(on_size_update)
-end
 
 local function add_tile(q, r)
    local pos = hex.flat_hex_to_pixel(q, r)
-   local tile_hash = factory.create(active_factory, pos)
+   local tile_hash
+   tile_hash = factory.create(active_factory, pos)
    tiles[tile_hash] = tile_hash
    maps.add_tile_data(q, r, tile_hash, pos)
 end
+
 
 local function add_map(map) 
    for k, v in pairs(map) do
@@ -51,6 +33,29 @@ local function remove_all()
    tiles = {}
    maps.tile_count = 0
 end
+
+local function on_size_update(scale)
+    -- update size
+end
+
+local function on_orintation_update(value)
+    remove_all()
+    if value then
+      active_factory = factory_tile_pointy
+    else
+      active_factory = factory_tile_flat
+    end
+    print(tostring(active_factory) .. " :: " .. factory_tile_pointy .. " : " .. factory_tile_flat)
+    map = maps.get_current_map()
+    add_map(map)
+end
+
+function init(self)
+    view_tests.add_view_tests(tiles)
+    hex.subscribe_to_orintation_update(on_orintation_update)
+end
+
+
 
 local function remove_tile(tile_hash)
    tiles[tile_hash] = nil

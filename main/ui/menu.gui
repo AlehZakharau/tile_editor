@@ -1,9 +1,5 @@
 script: "/main/ui/menu1.gui_script"
 fonts {
-  name: "system_font"
-  font: "/builtins/fonts/system_font.font"
-}
-fonts {
   name: "roboto"
   font: "/assets/fonts/roboto.font"
 }
